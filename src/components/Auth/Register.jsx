@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { useHistory } from 'react-router-dom';
-import './Auth.css';
+import { useNavigate } from 'react-router-dom';
+import './css/Auth.css';
 
 const Register = () => {
     const { register } = useContext(AuthContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: '',
@@ -24,7 +24,7 @@ const Register = () => {
         e.preventDefault();
         try {
             await register(username, email, password);
-            history.push('/dashboard');
+            navigate('/dashboard');
         } catch (errMsg) {
             setError(errMsg);
         }

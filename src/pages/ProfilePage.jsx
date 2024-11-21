@@ -6,7 +6,7 @@ import FriendRequests from '../components/Profile/FriendRequests';
 import Favorites from '../components/Profile/Favorites';
 import CustomLists from '../components/Profile/CustomLists';
 import EditProfile from '../components/Profile/EditProfile';
-import './ProfilePage.css';
+import './css/ProfilePage.css';
 
 const ProfilePage = () => {
     const { authState } = useContext(AuthContext);

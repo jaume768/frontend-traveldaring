@@ -1,0 +1,19 @@
+.review-list {
+    margin-top: 20px;
+}
+
+.review {
+    background-color: #2c2c2c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.review strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review p {
+    margin-bottom: 5px;
+}

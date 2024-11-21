@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import api from '../utils/api';
 import TripList from '../components/Trips/TripList';
 import { Link } from 'react-router-dom';
-import './Dashboard.css';
+import './css/Dashboard.css';
 
 const Dashboard = () => {
     const [trips, setTrips] = useState([]);

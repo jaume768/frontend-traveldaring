@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../utils/api';
-import './ReviewForm.css';
+import './css/ReviewForm.css';
 
 const ReviewForm = ({ tripId, refreshTrip }) => {
     const [rating, setRating] = useState(5);

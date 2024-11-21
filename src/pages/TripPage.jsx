@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import { useParams } from 'react-router-dom';
 import TripList from '../components/Trips/TripList';
-import './TripPage.css';
+import './css/TripPage.css';
 
 const TripPage = () => {
     const { friendId } = useParams();

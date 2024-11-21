@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import { Link } from 'react-router-dom';
-import './CustomLists.css';
+import './css/CustomLists.css';
 
 const CustomLists = () => {
     const [lists, setLists] = useState([]);

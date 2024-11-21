@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../utils/api';
-import './CommentList.css';
+import './css/CommentList.css';
 
 const CommentList = ({ tripId }) => {
     const [comments, setComments] = useState([]);

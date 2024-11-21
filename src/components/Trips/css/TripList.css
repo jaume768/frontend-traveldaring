@@ -1,0 +1,29 @@
+.trip-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.trip-card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.trip-card h3 {
+    margin-bottom: 10px;
+}
+
+.trip-card p {
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.trip-card .btn-secondary {
+    align-self: flex-start;
+}

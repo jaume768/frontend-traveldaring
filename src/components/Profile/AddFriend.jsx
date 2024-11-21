@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../utils/api';
-import './AddFriend.css';
+import './css/AddFriend.css';
 
 const AddFriend = () => {
     const [friendEmail, setFriendEmail] = useState('');

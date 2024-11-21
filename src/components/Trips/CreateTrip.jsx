@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import api from '../../utils/api';
-import { useHistory } from 'react-router-dom';
-import './CreateTrip.css';
+import { useNavigate } from 'react-router-dom';
+import './css/CreateTrip.css';
 
 const CreateTrip = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -64,7 +64,7 @@ const CreateTrip = () => {
         e.preventDefault();
         try {
             const response = await api.post('/trips/create', formData);
-            history.push(`/trips/${response.data._id}`);
+            navigate(`/trips/${response.data._id}`);
         } catch (err) {
             setError(err.response.data.msg || 'Error al crear el itinerario');
         }
@@ -75,7 +75,6 @@ const CreateTrip = () => {
             <h2>Crear Nuevo Itinerario</h2>
             {error && <div className="error-message">{error}</div>}
             <form onSubmit={onSubmit}>
-                {/* Título */}
                 <div className="form-group">
                     <label>Título</label>
                     <input
@@ -87,7 +86,6 @@ const CreateTrip = () => {
                     />
                 </div>
 
-                {/* Descripción */}
                 <div className="form-group">
                     <label>Descripción</label>
                     <textarea
@@ -98,7 +96,6 @@ const CreateTrip = () => {
                     ></textarea>
                 </div>
 
-                {/* Público */}
                 <div className="form-group">
                     <label>
                         <input
@@ -111,7 +108,6 @@ const CreateTrip = () => {
                     </label>
                 </div>
 
-                {/* Fechas de Viaje */}
                 <div className="form-group">
                     <label>Fecha de Inicio</label>
                     <input
@@ -133,7 +129,6 @@ const CreateTrip = () => {
                     />
                 </div>
 
-                {/* Preferencias de Destino */}
                 <div className="form-group">
                     <label>País de Destino</label>
                     <input
@@ -145,7 +140,6 @@ const CreateTrip = () => {
                     />
                 </div>
 
-                {/* Presupuesto */}
                 <div className="form-group">
                     <label>Presupuesto Total</label>
                     <input
@@ -156,8 +150,6 @@ const CreateTrip = () => {
                         required
                     />
                 </div>
-
-                {/* Añade otros campos según tu modelo */}
 
                 <button type="submit" className="btn-primary">
                     Crear Itinerario

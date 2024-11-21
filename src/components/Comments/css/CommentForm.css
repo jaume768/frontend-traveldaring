@@ -1,0 +1,19 @@
+.comment-form {
+    background-color: #2c2c2c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.comment-form h4 {
+    margin-bottom: 10px;
+}
+
+.comment-form textarea {
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.comment-form button {
+    width: auto;
+}

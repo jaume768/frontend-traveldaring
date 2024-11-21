@@ -1,0 +1,29 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #1f1f1f;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #bb86fc;
+}
+
+.navbar-links a,
+.navbar-links button {
+    margin-left: 15px;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.logout-button {
+    background: none;
+    color: #e0e0e0;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../utils/api';
-import './CommentForm.css';
+import './css/CommentForm.css';
 
 const CommentForm = ({ tripId, refreshTrip }) => {
     const [content, setContent] = useState('');

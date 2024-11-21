@@ -5,7 +5,7 @@ import CommentList from '../Comments/CommentList';
 import CommentForm from '../Comments/CommentForm';
 import ReviewList from '../Reviews/ReviewList';
 import ReviewForm from '../Reviews/ReviewForm';
-import './TripDetail.css';
+import './css/TripDetail.css';
 
 const TripDetail = () => {
     const { tripId } = useParams();
