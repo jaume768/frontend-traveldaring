@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 import TripList from '../components/Trips/TripList';
 import { Link } from 'react-router-dom';
@@ -25,20 +25,26 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className="dashboard">
-            <h2>Mis Itinerarios de Viaje</h2>
-            <Link to="/trips/create" className="btn-primary">
-                Crear Nuevo Itinerario
-            </Link>
-            {loading ? (
-                <p>Cargando...</p>
-            ) : error ? (
-                <div className="error-message">{error}</div>
-            ) : trips.length === 0 ? (
-                <p>No tienes itinerarios creados.</p>
-            ) : (
-                <TripList trips={trips} />
-            )}
+        <div className="dashboard-container">
+            <header className="dashboard-header">
+                <div className="dashboard-overlay">
+                    <div className="dashboard-content">
+                        <h2 className="dashboard-title">Mis Itinerarios de Viaje</h2>
+                        <Link to="/trips/create" className="dashboard-button">
+                            Crear Nuevo Itinerario
+                        </Link>
+                        {loading ? (
+                            <p className="loading-text">Cargando...</p>
+                        ) : error ? (
+                            <div className="error-message">{error}</div>
+                        ) : trips.length === 0 ? (
+                            <p className="no-trips-text">No tienes itinerarios creados.</p>
+                        ) : (
+                            <TripList trips={trips} />
+                        )}
+                    </div>
+                </div>
+            </header>
         </div>
     );
 };

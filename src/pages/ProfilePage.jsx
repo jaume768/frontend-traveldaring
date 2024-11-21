@@ -12,6 +12,7 @@ const ProfilePage = () => {
     const { authState } = useContext(AuthContext);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     const fetchProfile = async () => {
         try {
@@ -20,6 +21,7 @@ const ProfilePage = () => {
             setLoading(false);
         } catch (err) {
             console.error('Error al cargar el perfil');
+            setError('Error al cargar el perfil');
             setLoading(false);
         }
     };
@@ -28,20 +30,27 @@ const ProfilePage = () => {
         fetchProfile();
     }, []);
 
-    if (loading) return <p>Cargando perfil...</p>;
+    if (loading) return <p className="loading-text">Cargando perfil...</p>;
 
     return (
-        <div className="profile-page">
-            <h2>Mi Perfil</h2>
-            {profile && (
-                <>
-                    <EditProfile profile={profile} refreshProfile={fetchProfile} />
-                    <Favorites />
-                    <CustomLists />
-                    <FriendsList />
-                    <FriendRequests />
-                </>
-            )}
+        <div className="profile-container">
+            <header className="profile-header">
+                <div className="profile-overlay">
+                    <div className="profile-content">
+                        <h2 className="profile-title">Mi Perfil</h2>
+                        {error && <div className="error-message">{error}</div>}
+                        {profile && (
+                            <>
+                                <EditProfile profile={profile} refreshProfile={fetchProfile} />
+                                <Favorites />
+                                <CustomLists />
+                                <FriendsList />
+                                <FriendRequests />
+                            </>
+                        )}
+                    </div>
+                </div>
+            </header>
         </div>
     );
 };

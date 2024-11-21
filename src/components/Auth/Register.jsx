@@ -31,44 +31,56 @@ const Register = () => {
     };
 
     return (
-        <div className="auth-form">
-            <h2>Registrarse</h2>
-            {error && <div className="error-message">{error}</div>}
-            <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label>Nombre de Usuario</label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={username}
-                        onChange={onChange}
-                        required
-                    />
+        <div className="auth-container">
+            <header className="auth-header">
+                <div className="auth-overlay">
+                    <div className="auth-form-container">
+                        <h2 className="auth-title">Registrarse</h2>
+                        {error && <div className="error-message">{error}</div>}
+                        <form onSubmit={onSubmit} className="auth-form">
+                            <div className="form-group">
+                                <label htmlFor="username">Nombre de Usuario</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    value={username}
+                                    onChange={onChange}
+                                    required
+                                    placeholder="Ingresa tu nombre de usuario"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={onChange}
+                                    required
+                                    placeholder="Ingresa tu email"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Contraseña</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={onChange}
+                                    required
+                                    placeholder="Ingresa tu contraseña"
+                                />
+                            </div>
+                            <button type="submit" className="auth-button">
+                                Registrarse
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={onChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Contraseña</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={onChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn-primary">
-                    Registrarse
-                </button>
-            </form>
+            </header>
         </div>
     );
 };
