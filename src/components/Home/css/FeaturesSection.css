@@ -12,9 +12,10 @@
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 0.1fr));
     gap: 15px;
     justify-items: center;
+    margin-left: 20%;
 }
 
 .feature-card {
@@ -22,7 +23,7 @@
     padding: 30px;
     border-radius: var(--border-radius, 10px);
     width: 100%;
-    max-width: 300px;
+    max-width: 220px;
     box-shadow: var(--box-shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
     backdrop-filter: blur(10px);
     color: #000000;
@@ -41,7 +42,7 @@
 }
 
 .feature-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 10px;
 }
 
@@ -54,6 +55,7 @@
 @media (max-width: 768px) {
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
+        margin: 0;
     }
 }
 
