@@ -8,7 +8,7 @@ const HeaderSection = () => {
       <div className="overlay">
         <h1 className="header-title">¡Bienvenido a Traveldaring!</h1>
         <h2 className="header-subtitle">Planifica tus viajes con itinerarios personalizados generados por IA.</h2>
-        <Link to="/register" className="header-button">
+        <Link to="/dashboard" className="header-button">
           Empieza Ahora
         </Link>
       </div>

@@ -34,23 +34,21 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-container">
-            <header className="profile-header">
-                <div className="profile-overlay">
-                    <div className="profile-content">
-                        <h2 className="profile-title">Mi Perfil</h2>
-                        {error && <div className="error-message">{error}</div>}
-                        {profile && (
-                            <>
-                                <EditProfile profile={profile} refreshProfile={fetchProfile} />
-                                <Favorites />
-                                <CustomLists />
-                                <FriendsList />
-                                <FriendRequests />
-                            </>
-                        )}
-                    </div>
+            <div className="profile-overlay">
+                <div className="profile-content">
+                    <h2 className="profile-title">Mi Perfil</h2>
+                    {error && <div className="error-message">{error}</div>}
+                    {profile && (
+                        <>
+                            <EditProfile profile={profile} refreshProfile={fetchProfile} />
+                            <Favorites />
+                            <CustomLists />
+                            <FriendsList />
+                            <FriendRequests />
+                        </>
+                    )}
                 </div>
-            </header>
+            </div>
         </div>
     );
 };

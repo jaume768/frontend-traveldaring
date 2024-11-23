@@ -28,7 +28,7 @@ const TripDetail = () => {
         fetchTrip();
     }, [tripId]);
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) return <p className="loading-text">Cargando...</p>;
     if (error) return <div className="error-message">{error}</div>;
     if (!trip) return <p>Itinerario no encontrado.</p>;
 

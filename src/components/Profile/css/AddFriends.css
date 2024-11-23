@@ -1,6 +1,6 @@
-@import '../../../variables.css';
+/* AddFriend.css */
 
-.comment-form {
+.add-friend {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: var(--border-radius);
@@ -8,42 +8,38 @@
     color: var(--text-color);
 }
 
-.comment-form h3 {
+.add-friend h3 {
     margin-bottom: 15px;
     color: var(--secondary-color);
 }
 
-.comment-form form {
+.add-friend .message {
+    background-color: var(--success-color);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.add-friend form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
-.comment-form .form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.comment-form label {
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-.comment-form textarea {
+.add-friend input {
     padding: 12px 15px;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    resize: vertical;
 }
 
-.comment-form textarea:focus {
+.add-friend input:focus {
     outline: 2px solid var(--secondary-color);
 }
 
-.comment-form button {
+.add-friend .btn-primary {
     background-color: var(--primary-color);
     color: #fff;
     border: none;
@@ -51,10 +47,10 @@
     border-radius: var(--button-radius);
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: var(--font-size-button);
+    font-size: 1rem;
     align-self: flex-start;
 }
 
-.comment-form button:hover {
-    background-color: var(--primary-hover);
+.add-friend .btn-primary:hover {
+    background-color: var(--primary-hover, #357ABD);
 }

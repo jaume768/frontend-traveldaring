@@ -26,25 +26,23 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <header className="dashboard-header">
-                <div className="dashboard-overlay">
-                    <div className="dashboard-content">
-                        <h2 className="dashboard-title">Mis Itinerarios de Viaje</h2>
-                        <Link to="/trips/create" className="dashboard-button">
-                            Crear Nuevo Itinerario
-                        </Link>
-                        {loading ? (
-                            <p className="loading-text">Cargando...</p>
-                        ) : error ? (
-                            <div className="error-message">{error}</div>
-                        ) : trips.length === 0 ? (
-                            <p className="no-trips-text">No tienes itinerarios creados.</p>
-                        ) : (
-                            <TripList trips={trips} />
-                        )}
-                    </div>
+            <div className="dashboard-overlay">
+                <div className="dashboard-content">
+                    <h2 className="dashboard-title">Mis Itinerarios de Viaje</h2>
+                    <Link to="/trips/create" className="dashboard-button">
+                        Crear Nuevo Itinerario
+                    </Link>
+                    {loading ? (
+                        <p className="loading-text">Cargando...</p>
+                    ) : error ? (
+                        <div className="error-message">{error}</div>
+                    ) : trips.length === 0 ? (
+                        <p className="no-trips-text">No tienes itinerarios creados.</p>
+                    ) : (
+                        <TripList trips={trips} />
+                    )}
                 </div>
-            </header>
+            </div>
         </div>
     );
 };

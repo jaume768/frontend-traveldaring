@@ -1,85 +1,102 @@
-/* ProfilePage.css */
+@import '../../variables.css';
 
-/* Variables CSS para mantener consistencia */
-:root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --background-overlay: rgba(33, 37, 41, 0.85);
-    --error-color: #ff4d4d;
-    --text-color: #ffffff;
-    --button-radius: 25px;
-    --button-padding: 12px 30px;
-    --border-radius: 10px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --font-size-title: 2.5rem;
-    --font-size-button: 1rem;
+/* Reset de márgenes y paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* Contenedor principal para ProfilePage */
 .profile-container {
-    height: 100vh;
-    max-height: 900px;
+    min-height: 100vh;
     background: url('https://wallpapers.com/images/hd/travel-hd-4zjwrepl0mzn70nd.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: var(--font-family);
 }
 
 /* Superposición oscura para mejorar la legibilidad */
 .profile-overlay {
     background: var(--background-overlay);
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
 
-/* Contenedor de contenido */
+/* Contenedor de contenido con diseño de tarjeta */
 .profile-content {
     background: rgba(255, 255, 255, 0.1);
     padding: 40px;
     border-radius: var(--border-radius);
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
     box-shadow: var(--box-shadow);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow-y: auto;
+    max-height: 90vh;
 }
 
 /* Título del Perfil */
 .profile-title {
     text-align: center;
     font-size: var(--font-size-title);
-    font-weight: bold;
-    margin-bottom: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
 }
 
-/* Mensaje de error */
+/* Mensajes de error y éxito */
+.error-message,
+.success-message {
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
 .error-message {
     background-color: var(--error-color);
     color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
+}
+
+.success-message {
+    background-color: var(--success-color);
+    color: #fff;
 }
 
 /* Texto de carga */
 .loading-text {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: center;
     color: var(--text-color);
     margin-top: 20px;
 }
 
 /* Responsividad */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .profile-content {
         padding: 30px;
+    }
+
+    .profile-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-content {
+        padding: 25px;
     }
 
     .profile-title {
