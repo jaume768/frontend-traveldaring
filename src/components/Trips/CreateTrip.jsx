@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 import './css/CreateTrip.css';
 
 const CreateTrip = () => {
@@ -19,43 +20,110 @@ const CreateTrip = () => {
         budget: {
             total: 0,
         },
+        interests: [],
+        accommodationPreferences: {
+            type: '',
+        },
+        transportPreferences: {
+            preferredMode: '',
+        },
+        foodPreferences: [],
+        travelCompanion: {
+            type: '',
+        },
+        activityLevel: {
+            pace: '',
+        },
+        additionalPreferences: '',
+        numberOfCities: 3,
     });
 
     const [error, setError] = useState('');
 
+    // Opciones para los campos de selección múltiple e individual
+    const interestOptions = [
+        { value: 'aventura', label: 'Aventura' },
+        { value: 'cultura', label: 'Cultura' },
+        { value: 'gastronomia', label: 'Gastronomía' },
+        { value: 'relax', label: 'Relax' },
+        { value: 'vida_nocturna', label: 'Vida Nocturna' },
+        // Añade más opciones según sea necesario
+    ];
+
+    const foodOptions = [
+        { value: 'local', label: 'Local' },
+        { value: 'vegetariana', label: 'Vegetariana' },
+        { value: 'vegana', label: 'Vegana' },
+        { value: 'mariscos', label: 'Mariscos' },
+        { value: 'internacional', label: 'Internacional' },
+        // Añade más opciones según sea necesario
+    ];
+
+    const accommodationOptions = [
+        { value: 'hotel', label: 'Hotel' },
+        { value: 'hostel', label: 'Hostel' },
+        { value: 'apartamento', label: 'Apartamento' },
+        { value: 'villa', label: 'Villa' },
+        // Añade más opciones según sea necesario
+    ];
+
+    const transportOptions = [
+        { value: 'avion', label: 'Avión' },
+        { value: 'tren', label: 'Tren' },
+        { value: 'coche', label: 'Coche' },
+        { value: 'autobus', label: 'Autobús' },
+        { value: 'bicicleta', label: 'Bicicleta' },
+        // Añade más opciones según sea necesario
+    ];
+
+    const travelCompanionOptions = [
+        { value: 'solo', label: 'Solo' },
+        { value: 'pareja', label: 'Pareja' },
+        { value: 'familia', label: 'Familia' },
+        { value: 'grupo', label: 'Grupo' },
+        // Añade más opciones según sea necesario
+    ];
+
+    const activityLevelOptions = [
+        { value: 'relaxado', label: 'Relaxado' },
+        { value: 'moderado', label: 'Moderado' },
+        { value: 'activo', label: 'Activo' },
+        { value: 'intenso', label: 'Intenso' },
+        // Añade más opciones según sea necesario
+    ];
+
+    // Maneja cambios en campos de selección múltiple
+    const handleSelectChange = (selectedOptions, actionMeta) => {
+        const { name } = actionMeta;
+        const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        setFormData({
+            ...formData,
+            [name]: values,
+        });
+    };
+
+    // Maneja cambios en campos individuales
     const onChange = (e) => {
         const { name, value, type, checked } = e.target;
-        if (name.includes('travelDates.')) {
-            const field = name.split('.')[1];
+
+        if (name.includes('.')) {
+            const [parent, child] = name.split('.');
             setFormData({
                 ...formData,
-                travelDates: {
-                    ...formData.travelDates,
-                    [field]: value,
+                [parent]: {
+                    ...formData[parent],
+                    [child]: type === 'checkbox' ? checked : value,
                 },
             });
-        } else if (name.includes('destinationPreferences.')) {
-            const field = name.split('.')[1];
+        } else if (type === 'checkbox') {
             setFormData({
                 ...formData,
-                destinationPreferences: {
-                    ...formData.destinationPreferences,
-                    [field]: value,
-                },
-            });
-        } else if (name.includes('budget.')) {
-            const field = name.split('.')[1];
-            setFormData({
-                ...formData,
-                budget: {
-                    ...formData.budget,
-                    [field]: value,
-                },
+                [name]: checked,
             });
         } else {
             setFormData({
                 ...formData,
-                [name]: type === 'checkbox' ? checked : value,
+                [name]: value,
             });
         }
     };
@@ -66,7 +134,7 @@ const CreateTrip = () => {
             const response = await api.post('/trips/create', formData);
             navigate(`/trips/${response.data._id}`);
         } catch (err) {
-            setError(err.response.data.msg || 'Error al crear el itinerario');
+            setError(err.response?.data?.msg || 'Error al crear el itinerario');
         }
     };
 
@@ -75,6 +143,7 @@ const CreateTrip = () => {
             <h2>Crear Nuevo Itinerario</h2>
             {error && <div className="error-message">{error}</div>}
             <form onSubmit={onSubmit}>
+                {/* Título */}
                 <div className="form-group">
                     <label>Título</label>
                     <input
@@ -83,9 +152,11 @@ const CreateTrip = () => {
                         value={formData.title}
                         onChange={onChange}
                         required
+                        placeholder="Ingrese el título del itinerario"
                     />
                 </div>
 
+                {/* Descripción */}
                 <div className="form-group">
                     <label>Descripción</label>
                     <textarea
@@ -93,10 +164,12 @@ const CreateTrip = () => {
                         value={formData.description}
                         onChange={onChange}
                         required
+                        placeholder="Ingrese una descripción detallada"
                     ></textarea>
                 </div>
 
-                <div className="form-group">
+                {/* Hacer Público */}
+                <div className="form-group checkbox-group">
                     <label>
                         <input
                             type="checkbox"
@@ -108,6 +181,7 @@ const CreateTrip = () => {
                     </label>
                 </div>
 
+                {/* Fecha de Inicio */}
                 <div className="form-group">
                     <label>Fecha de Inicio</label>
                     <input
@@ -118,6 +192,8 @@ const CreateTrip = () => {
                         required
                     />
                 </div>
+
+                {/* Fecha de Fin */}
                 <div className="form-group">
                     <label>Fecha de Fin</label>
                     <input
@@ -129,6 +205,7 @@ const CreateTrip = () => {
                     />
                 </div>
 
+                {/* País de Destino */}
                 <div className="form-group">
                     <label>País de Destino</label>
                     <input
@@ -137,26 +214,178 @@ const CreateTrip = () => {
                         value={formData.destinationPreferences.country}
                         onChange={onChange}
                         required
+                        placeholder="Ingrese el país de destino"
                     />
                 </div>
 
+                {/* Presupuesto Total */}
                 <div className="form-group">
-                    <label>Presupuesto Total</label>
+                    <label>Presupuesto Total (USD)</label>
                     <input
                         type="number"
                         name="budget.total"
                         value={formData.budget.total}
                         onChange={onChange}
                         required
+                        min="0"
+                        placeholder="Ingrese el presupuesto total"
                     />
                 </div>
 
+                {/* Número de Ciudades */}
+                <div className="form-group">
+                    <label>Número de Ciudades</label>
+                    <input
+                        type="number"
+                        name="numberOfCities"
+                        value={formData.numberOfCities}
+                        onChange={onChange}
+                        required
+                        min="1"
+                        placeholder="Ingrese el número de ciudades"
+                    />
+                </div>
+
+                {/* Intereses */}
+                <div className="form-group">
+                    <label>Intereses</label>
+                    <Select
+                        name="interests"
+                        options={interestOptions}
+                        isMulti
+                        value={interestOptions.filter(option => formData.interests.includes(option.value))}
+                        onChange={handleSelectChange}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione sus intereses"
+                    />
+                </div>
+
+                {/* Preferencias de Comida */}
+                <div className="form-group">
+                    <label>Preferencias de Comida</label>
+                    <Select
+                        name="foodPreferences"
+                        options={foodOptions}
+                        isMulti
+                        value={foodOptions.filter(option => formData.foodPreferences.includes(option.value))}
+                        onChange={handleSelectChange}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione sus preferencias de comida"
+                    />
+                </div>
+
+                {/* Preferencia de Alojamiento */}
+                <div className="form-group">
+                    <label>Preferencia de Alojamiento</label>
+                    <Select
+                        name="accommodationPreferences.type"
+                        options={accommodationOptions}
+                        isClearable
+                        value={accommodationOptions.find(option => option.value === formData.accommodationPreferences.type)}
+                        onChange={(selectedOption) => {
+                            setFormData({
+                                ...formData,
+                                accommodationPreferences: {
+                                    ...formData.accommodationPreferences,
+                                    type: selectedOption ? selectedOption.value : '',
+                                },
+                            });
+                        }}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione una opción"
+                    />
+                </div>
+
+                {/* Preferencia de Transporte */}
+                <div className="form-group">
+                    <label>Preferencia de Transporte</label>
+                    <Select
+                        name="transportPreferences.preferredMode"
+                        options={transportOptions}
+                        isClearable
+                        value={transportOptions.find(option => option.value === formData.transportPreferences.preferredMode)}
+                        onChange={(selectedOption) => {
+                            setFormData({
+                                ...formData,
+                                transportPreferences: {
+                                    ...formData.transportPreferences,
+                                    preferredMode: selectedOption ? selectedOption.value : '',
+                                },
+                            });
+                        }}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione una opción"
+                    />
+                </div>
+
+                {/* Compañero de Viaje */}
+                <div className="form-group">
+                    <label>Compañero de Viaje</label>
+                    <Select
+                        name="travelCompanion.type"
+                        options={travelCompanionOptions}
+                        isClearable
+                        value={travelCompanionOptions.find(option => option.value === formData.travelCompanion.type)}
+                        onChange={(selectedOption) => {
+                            setFormData({
+                                ...formData,
+                                travelCompanion: {
+                                    ...formData.travelCompanion,
+                                    type: selectedOption ? selectedOption.value : '',
+                                },
+                            });
+                        }}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione una opción"
+                    />
+                </div>
+
+                {/* Nivel de Actividad */}
+                <div className="form-group">
+                    <label>Nivel de Actividad</label>
+                    <Select
+                        name="activityLevel.pace"
+                        options={activityLevelOptions}
+                        isClearable
+                        value={activityLevelOptions.find(option => option.value === formData.activityLevel.pace)}
+                        onChange={(selectedOption) => {
+                            setFormData({
+                                ...formData,
+                                activityLevel: {
+                                    ...formData.activityLevel,
+                                    pace: selectedOption ? selectedOption.value : '',
+                                },
+                            });
+                        }}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione una opción"
+                    />
+                </div>
+
+                {/* Preferencias Adicionales */}
+                <div className="form-group">
+                    <label>Preferencias Adicionales</label>
+                    <textarea
+                        name="additionalPreferences"
+                        value={formData.additionalPreferences}
+                        onChange={onChange}
+                        placeholder="Escribe cualquier preferencia adicional..."
+                    ></textarea>
+                </div>
+
+                {/* Botón de Envío */}
                 <button type="submit" className="btn-primary">
                     Crear Itinerario
                 </button>
             </form>
         </div>
     );
-};
+}
 
 export default CreateTrip;

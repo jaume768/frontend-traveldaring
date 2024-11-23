@@ -7,17 +7,23 @@
     max-width: 600px;
     margin: 40px auto;
     box-shadow: var(--box-shadow);
-    color: var(--text-color);
+    color: black;
     font-family: var(--font-family);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
+/* Título del formulario */
 .create-trip-form h2 {
     text-align: center;
     margin-bottom: 20px;
     color: var(--secondary-color);
+    font-size: 2rem;
 }
 
-.create-trip-form .error-message {
+/* Mensaje de error */
+.error-message {
     background-color: var(--error-color);
     color: #fff;
     padding: 10px 15px;
@@ -27,40 +33,63 @@
     font-weight: 500;
 }
 
-.create-trip-form form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.create-trip-form .form-group {
+/* Grupo de formulario */
+.form-group {
     display: flex;
     flex-direction: column;
 }
 
-.create-trip-form label {
+/* Etiquetas de los campos */
+.form-group label {
     margin-bottom: 5px;
     font-weight: 600;
+    color: var(--secondary-color);
 }
 
-.create-trip-form input,
-.create-trip-form textarea,
-.create-trip-form select {
+/* Inputs, textareas y selects */
+.form-group input,
+.form-group textarea,
+.form-group select {
     padding: 12px 15px;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
     background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+    transition: background-color 0.3s ease;
 }
 
-.create-trip-form input:focus,
-.create-trip-form textarea:focus,
-.create-trip-form select:focus {
+/* Estilos al enfocar los campos */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
     outline: 2px solid var(--secondary-color);
 }
 
-.create-trip-form button {
+/* Selects con múltiples opciones */
+.form-group select[multiple] {
+    height: 100px;
+}
+
+/* Grupo de checkbox */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.checkbox-group input {
+    margin-right: 10px;
+    width: auto;
+}
+
+/* Botón de envío */
+.btn-primary {
     background-color: var(--primary-color);
     color: #fff;
     border: none;
@@ -69,14 +98,88 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: var(--font-size-button);
+    font-weight: bold;
 }
 
-.create-trip-form button:hover {
+.btn-primary:hover {
     background-color: var(--primary-hover);
 }
 
-/* Opcional: Estilos para checkbox dentro del formulario */
-.create-trip-form .form-group input[type="checkbox"] {
-    width: auto;
-    margin-right: 10px;
+/* Estilos para react-select */
+.react-select-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+.react-select__control {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+}
+
+.react-select__placeholder {
+    color: #ccc;
+}
+
+.react-select__multi-value {
+    background-color: var(--secondary-color);
+}
+
+.react-select__multi-value__label {
+    color: #fff;
+}
+
+.react-select__multi-value__remove {
+    color: #fff;
+    cursor: pointer;
+}
+
+.react-select__option--is-focused {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.react-select__option--is-selected {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.react-select__single-value {
+    color: #fff;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .create-trip-form {
+        padding: 25px;
+        gap: 15px;
+    }
+
+    .create-trip-form h2 {
+        font-size: 1.8rem;
+    }
+
+    .form-group select[multiple] {
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-trip-form {
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .create-trip-form h2 {
+        font-size: 1.6rem;
+    }
+
+    .form-group select[multiple] {
+        height: 60px;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }
