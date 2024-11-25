@@ -1,0 +1,88 @@
+.itinerary-day-edit {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.itinerary-day-edit h5 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.activities-edit {
+    margin-top: 10px;
+}
+
+.activity-edit {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.activity-edit label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.activity-edit input {
+    width: 100%;
+    padding: 6px;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-remove-activity {
+    background-color: var(--error-color);
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remove-activity:hover {
+    background-color: darkred;
+}
+
+.btn-add-activity {
+    background-color: #5bc0de; /* Color de ejemplo para agregar actividad */
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-add-activity:hover {
+    background-color: #31b0d5;
+}
+
+.additional-info-edit {
+    margin-top: 15px;
+}
+
+.additional-info-edit label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.additional-info-edit input {
+    width: 100%;
+    padding: 6px;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

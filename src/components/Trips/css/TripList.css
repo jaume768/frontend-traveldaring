@@ -34,7 +34,6 @@
 }
 
 .trip-card .btn-secondary {
-    background-color: var(--secondary-color);
     color: #fff;
     border: none;
     padding: var(--button-padding);
@@ -43,9 +42,9 @@
     transition: background-color 0.3s ease;
     font-size: var(--font-size-button);
     text-decoration: none;
-    align-self: flex-start;
+    align-self: center;
 }
 
 .trip-card .btn-secondary:hover {
-    background-color: #38D9B7;
+    background-color: #419e8a;
 }

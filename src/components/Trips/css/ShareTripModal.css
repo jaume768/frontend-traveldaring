@@ -1,0 +1,30 @@
+.modal-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.modal-content form label {
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.modal-content form input[type="text"] {
+    font-size: 1rem;
+    height: 40px;
+}
+
+.success-message {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+}

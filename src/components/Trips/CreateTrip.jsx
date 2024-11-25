@@ -16,6 +16,7 @@ const CreateTrip = () => {
         },
         destinationPreferences: {
             country: '',
+            type: '', // Añadido
         },
         budget: {
             total: 0,
@@ -40,14 +41,12 @@ const CreateTrip = () => {
 
     const [error, setError] = useState('');
 
-    // Opciones para los campos de selección múltiple e individual
     const interestOptions = [
         { value: 'aventura', label: 'Aventura' },
         { value: 'cultura', label: 'Cultura' },
         { value: 'gastronomia', label: 'Gastronomía' },
         { value: 'relax', label: 'Relax' },
         { value: 'vida_nocturna', label: 'Vida Nocturna' },
-        // Añade más opciones según sea necesario
     ];
 
     const foodOptions = [
@@ -56,7 +55,6 @@ const CreateTrip = () => {
         { value: 'vegana', label: 'Vegana' },
         { value: 'mariscos', label: 'Mariscos' },
         { value: 'internacional', label: 'Internacional' },
-        // Añade más opciones según sea necesario
     ];
 
     const accommodationOptions = [
@@ -64,7 +62,6 @@ const CreateTrip = () => {
         { value: 'hostel', label: 'Hostel' },
         { value: 'apartamento', label: 'Apartamento' },
         { value: 'villa', label: 'Villa' },
-        // Añade más opciones según sea necesario
     ];
 
     const transportOptions = [
@@ -73,7 +70,6 @@ const CreateTrip = () => {
         { value: 'coche', label: 'Coche' },
         { value: 'autobus', label: 'Autobús' },
         { value: 'bicicleta', label: 'Bicicleta' },
-        // Añade más opciones según sea necesario
     ];
 
     const travelCompanionOptions = [
@@ -81,18 +77,22 @@ const CreateTrip = () => {
         { value: 'pareja', label: 'Pareja' },
         { value: 'familia', label: 'Familia' },
         { value: 'grupo', label: 'Grupo' },
-        // Añade más opciones según sea necesario
     ];
 
     const activityLevelOptions = [
-        { value: 'relaxado', label: 'Relaxado' },
+        { value: 'relajado', label: 'Relajado' },
         { value: 'moderado', label: 'Moderado' },
         { value: 'activo', label: 'Activo' },
         { value: 'intenso', label: 'Intenso' },
-        // Añade más opciones según sea necesario
     ];
 
-    // Maneja cambios en campos de selección múltiple
+    const destinationTypeOptions = [
+        { value: 'Playa', label: 'Playa' },
+        { value: 'Montaña', label: 'Montaña' },
+        { value: 'Ciudad', label: 'Ciudad' },
+        { value: 'Campo', label: 'Campo' },
+    ];
+
     const handleSelectChange = (selectedOptions, actionMeta) => {
         const { name } = actionMeta;
         const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
@@ -102,7 +102,6 @@ const CreateTrip = () => {
         });
     };
 
-    // Maneja cambios en campos individuales
     const onChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -215,6 +214,29 @@ const CreateTrip = () => {
                         onChange={onChange}
                         required
                         placeholder="Ingrese el país de destino"
+                    />
+                </div>
+
+                {/* Tipo de Destino (Añadido) */}
+                <div className="form-group">
+                    <label>Tipo de Destino</label>
+                    <Select
+                        name="destinationPreferences.type"
+                        options={destinationTypeOptions}
+                        isClearable
+                        value={destinationTypeOptions.find(option => option.value === formData.destinationPreferences.type)}
+                        onChange={(selectedOption) => {
+                            setFormData({
+                                ...formData,
+                                destinationPreferences: {
+                                    ...formData.destinationPreferences,
+                                    type: selectedOption ? selectedOption.value : '',
+                                },
+                            });
+                        }}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder="Seleccione un tipo de destino"
                     />
                 </div>
 
@@ -386,6 +408,6 @@ const CreateTrip = () => {
             </form>
         </div>
     );
-}
+};
 
 export default CreateTrip;

@@ -1,4 +1,5 @@
 @import '../../../variables.css';
+
 .trip-detail {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 30px;
@@ -12,25 +13,102 @@
 .trip-detail h2 {
     margin-bottom: 10px;
     color: var(--secondary-color);
+    font-size: var(--font-size-title);
 }
 
 .trip-detail p {
     margin-bottom: 20px;
+    line-height: 1.6;
 }
 
 .trip-detail h3 {
     margin-top: 30px;
     margin-bottom: 15px;
     color: var(--secondary-color);
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
-.trip-detail pre {
+.itinerary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.itinerary-day {
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.day-header {
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.day-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.activities {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.activity {
+    display: flex;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.activity-time {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-right: 15px;
+    min-width: 60px;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-name {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.activity-location {
+    margin: 5px 0 0 0;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+.additional-info {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.additional-info p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 50px;
 }
 
 .error-message {
@@ -41,4 +119,150 @@
     margin-bottom: 15px;
     text-align: center;
     font-weight: 500;
+}
+
+/* ... Código existente ... */
+
+.trip-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trip-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.btn-edit:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-delete {
+    background-color: var(--error-color);
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: darkred;
+}
+
+.btn-share {
+    background-color: #f0ad4e;
+    /* Color de ejemplo para compartir */
+    color: #fff;
+}
+
+.btn-share:hover {
+    background-color: #ec971f;
+}
+
+.btn-download {
+    background-color: #5bc0de;
+    /* Color de ejemplo para descargar */
+    color: #fff;
+}
+
+.btn-download:hover {
+    background-color: #31b0d5;
+}
+
+/* Estilos para los modales */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--box-shadow);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.modal-content form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.modal-content form input,
+.modal-content form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-save {
+    background-color: var(--success-color);
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+.error-message {
+    background-color: var(--error-color);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
 }

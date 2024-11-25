@@ -1,0 +1,17 @@
+.modal-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+}

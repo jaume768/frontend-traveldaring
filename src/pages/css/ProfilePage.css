@@ -44,7 +44,6 @@
     flex-direction: column;
     gap: 30px;
     overflow-y: auto;
-    max-height: 90vh;
 }
 
 /* Título del Perfil */
