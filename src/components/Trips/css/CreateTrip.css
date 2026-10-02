@@ -30,6 +30,19 @@
     border-color: rgba(92, 225, 255, 0.4);
 }
 
+/* La animación de entrada convierte cada sección en un contexto de apilamiento:
+   la sección en uso se pone por encima para que sus calendarios y desplegables
+   no queden tapados por la sección siguiente. */
+.form-section {
+    position: relative;
+}
+
+.form-section:focus-within,
+.form-section:has(.react-datepicker-popper),
+.form-section:has(.react-select__menu) {
+    z-index: 20;
+}
+
 .form-section h3 {
     display: flex;
     align-items: center;
@@ -293,6 +306,10 @@
 /* react-datepicker con el tema oscuro */
 .react-datepicker-wrapper {
     width: 100%;
+}
+
+.react-datepicker-popper {
+    z-index: 30 !important;
 }
 
 .react-datepicker {
