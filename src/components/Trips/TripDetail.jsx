@@ -100,9 +100,11 @@ const TripDetail = () => {
     const isCreator = userId && trip.createdBy && trip.createdBy._id.toString() === userId;
     const isCollaborator = userId && trip.collaborators && trip.collaborators.some(collab => collab._id.toString() === userId);
 
-    const canEdit = isCreator || isCollaborator;
-    const canDelete = isCreator;
-    const canShare = isCreator;
+    // Los itinerarios de ejemplo no se pueden modificar desde la cuenta demo.
+    const isLocked = Boolean(trip.isSample && authState.user?.isDemo);
+    const canEdit = (isCreator || isCollaborator) && !isLocked;
+    const canDelete = isCreator && !isLocked;
+    const canShare = isCreator && !isLocked;
     const canDownload = authState.user && ['premium', 'pro', 'vip'].includes(authState.user.role);
 
     const sortedDays = Object.keys(trip.itinerary)
@@ -164,6 +166,7 @@ const TripDetail = () => {
                         {country && <span className="badge"><FaMapMarkerAlt /> {country}</span>}
                         {tripDates && <span className="badge"><FaCalendarAlt /> {tripDates}</span>}
                         <span className="badge">{sortedDays.length} {sortedDays.length === 1 ? 'día' : 'días'}</span>
+                        {trip.isSample && <span className="badge">Itinerario de ejemplo</span>}
                     </div>
                     <h1 className="trip-title">{trip.title}</h1>
                     <p className="trip-description">{trip.description}</p>

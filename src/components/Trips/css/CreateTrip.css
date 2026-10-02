@@ -26,12 +26,6 @@
     animation: fade-up 0.7s var(--ease) both;
 }
 
-.form-section:nth-of-type(2) { animation-delay: 0.06s; }
-.form-section:nth-of-type(3) { animation-delay: 0.12s; }
-.form-section:nth-of-type(4) { animation-delay: 0.18s; }
-.form-section:nth-of-type(5) { animation-delay: 0.24s; }
-.form-section:nth-of-type(6) { animation-delay: 0.3s; }
-
 .form-section:focus-within {
     border-color: rgba(92, 225, 255, 0.4);
 }
@@ -79,10 +73,143 @@
     border-color: var(--danger) !important;
 }
 
-.create-trip-form-container form > .btn-primary {
-    width: 100%;
-    padding: 16px 22px;
-    font-size: 1.05rem;
+/* Indicador de fases */
+.wizard-steps {
+    --wizard-progress: 0%;
+    list-style: none;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-bottom: 30px;
+}
+
+/* Línea de fondo y línea de progreso */
+.wizard-steps::before,
+.wizard-steps::after {
+    content: '';
+    position: absolute;
+    top: 21px;
+    left: 10%;
+    height: 2px;
+    border-radius: 2px;
+}
+
+.wizard-steps::before {
+    right: 10%;
+    background: var(--border-strong);
+}
+
+.wizard-steps::after {
+    width: calc(80% * var(--wizard-progress) / 100%);
+    background: var(--gradient-brand);
+    transition: width 0.6s var(--ease);
+}
+
+.wizard-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.wizard-step button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: none;
+    color: var(--text-faint);
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.wizard-step button:disabled {
+    cursor: default;
+}
+
+.wizard-step-number {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-solid);
+    border: 2px solid var(--border-strong);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 800;
+    transition: all 0.4s var(--ease);
+}
+
+.wizard-step.is-done button {
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.wizard-step.is-done .wizard-step-number {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+.wizard-step.is-current button {
+    color: var(--text);
+}
+
+.wizard-step.is-current .wizard-step-number {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: #03101f;
+    transform: scale(1.12);
+    box-shadow: 0 0 0 6px rgba(10, 124, 255, 0.2), var(--shadow-glow);
+}
+
+.form-section[hidden] {
+    display: none;
+}
+
+.wizard-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.wizard-nav > :last-child {
+    justify-self: end;
+}
+
+.wizard-nav > :first-child {
+    justify-self: start;
+}
+
+.wizard-count {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+}
+
+/* Resumen de la última fase */
+.trip-summary dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 24px;
+}
+
+.trip-summary dt {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+
+.trip-summary dd {
+    margin-top: 2px;
+    color: var(--text);
+    overflow-wrap: anywhere;
 }
 
 /* react-select con el tema oscuro */
@@ -295,5 +422,42 @@
     .form-section {
         padding: 20px 16px;
         border-radius: var(--radius);
+    }
+
+    .wizard-step-label {
+        display: none;
+    }
+
+    .wizard-step.is-current .wizard-step-label {
+        display: block;
+        position: absolute;
+        top: 54px;
+        white-space: nowrap;
+    }
+
+    .wizard-steps {
+        margin-bottom: 58px;
+    }
+
+    .wizard-step-number {
+        width: 38px;
+        height: 38px;
+    }
+
+    .wizard-steps::before,
+    .wizard-steps::after {
+        top: 18px;
+    }
+
+    .trip-summary dl {
+        grid-template-columns: 1fr;
+    }
+
+    .wizard-count {
+        display: none;
+    }
+
+    .wizard-nav {
+        grid-template-columns: 1fr 1fr;
     }
 }

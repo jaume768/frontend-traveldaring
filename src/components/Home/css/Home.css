@@ -66,10 +66,10 @@
     width: min(var(--page-max), 100% - 40px);
     margin: 0 auto;
     padding: calc(var(--nav-h) + 40px) 0 90px;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: center;
-    gap: 40px;
+}
+
+.hero-copy {
+    max-width: 680px;
 }
 
 .hero-copy > * {
@@ -79,33 +79,8 @@
 .hero-copy > *:nth-child(2) { animation-delay: 0.12s; }
 .hero-copy > *:nth-child(3) { animation-delay: 0.24s; }
 .hero-copy > *:nth-child(4) { animation-delay: 0.36s; }
-.hero-copy > *:nth-child(5) { animation-delay: 0.48s; }
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    background: rgba(5, 13, 26, 0.55);
-    border: 1px solid var(--border-strong);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #d6ecff;
-}
-
-.hero-badge-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse-ring 1.8s ease-out infinite;
-}
 
 .hero-title {
-    margin-top: 22px;
     font-size: clamp(2.5rem, 6.2vw, 4.6rem);
     font-weight: 800;
     line-height: 1.04;
@@ -138,69 +113,6 @@
     margin-top: 18px;
     font-size: 0.88rem;
     color: #a9c3e2;
-}
-
-/* Tarjetas flotantes sobre la foto */
-.hero-cards {
-    position: relative;
-    height: 380px;
-}
-
-.hero-card {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    border-radius: var(--radius);
-    background: rgba(5, 13, 26, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    box-shadow: var(--shadow);
-    color: #fff;
-    white-space: nowrap;
-    animation: fade-up 1s var(--ease) both, float 7s ease-in-out infinite;
-}
-
-.hero-card strong {
-    display: block;
-    font-size: 0.98rem;
-}
-
-.hero-card span:not(.hero-card-icon) {
-    font-size: 0.82rem;
-    color: #b9cfea;
-}
-
-.hero-card-icon {
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: var(--gradient-brand);
-    color: #03101f;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-}
-
-.hero-card--one {
-    top: 6%;
-    right: 4%;
-    animation-delay: 0.5s, 0.5s;
-}
-
-.hero-card--two {
-    top: 42%;
-    left: 0;
-    animation-delay: 0.7s, 1.4s;
-}
-
-.hero-card--three {
-    bottom: 6%;
-    right: 12%;
-    animation-delay: 0.9s, 2.3s;
 }
 
 .hero-scroll {
@@ -637,14 +549,6 @@
 @media (max-width: 1024px) {
     .features-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .hero-inner {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-cards {
-        display: none;
     }
 
     .hero-shade {

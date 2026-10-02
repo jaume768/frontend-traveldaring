@@ -19,14 +19,46 @@ import {
     faUserFriends, 
     faRunning, 
     faPlusCircle,
-    faPlane
+    faPlane,
+    faCheck,
+    faArrowLeft,
+    faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
+import { format as formatISODate } from 'date-fns';
 
 countries.registerLocale(esLocale);
 registerLocale('es', es);
+
+// Fases del formulario y los campos que se validan al salir de cada una.
+const STEPS = [
+    { label: 'Lo básico', fields: ['title', 'description'] },
+    {
+        label: 'Fechas y destino',
+        fields: [
+            'travelDates.startDate',
+            'travelDates.endDate',
+            'destinationPreferences.country',
+            'destinationPreferences.countryName',
+            'destinationPreferences.type',
+        ],
+    },
+    { label: 'Presupuesto', fields: ['budget.total', 'numberOfCities'] },
+    {
+        label: 'Preferencias',
+        fields: [
+            'interests',
+            'foodPreferences',
+            'accommodationPreferences.type',
+            'transportPreferences.preferredMode',
+            'travelCompanion.type',
+            'activityLevel.pace',
+        ],
+    },
+    { label: 'Últimos detalles', fields: [] },
+];
 
 const CreateTrip = () => {
     const navigate = useNavigate();
@@ -70,6 +102,7 @@ const CreateTrip = () => {
     const [errors, setErrors] = useState({});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [step, setStep] = useState(0);
 
     const interestOptions = [
         { value: 'aventura', label: 'Aventura' },
@@ -167,7 +200,8 @@ const CreateTrip = () => {
         }
     };
 
-    const validateForm = () => {
+    // Devuelve todos los errores de validación del formulario (por nombre de campo).
+    const collectErrors = () => {
         const newErrors = {};
         if (!formData.title.trim()) {
             newErrors.title = 'El título es requerido.';
@@ -223,32 +257,60 @@ const CreateTrip = () => {
         if (!formData.activityLevel.pace) {
             newErrors['activityLevel.pace'] = 'El nivel de actividad es requerido.';
         }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return newErrors;
+    };
+
+    const errorsForStep = (allErrors, stepIndex) =>
+        Object.fromEntries(STEPS[stepIndex].fields.filter((field) => allErrors[field]).map((field) => [field, allErrors[field]]));
+
+    const goToStep = (target) => {
+        setStep(target);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Avanza solo si la fase actual está completa.
+    const nextStep = () => {
+        const stepErrors = errorsForStep(collectErrors(), step);
+        setErrors(stepErrors);
+        if (Object.keys(stepErrors).length === 0) {
+            goToStep(Math.min(step + 1, STEPS.length - 1));
+        }
+    };
+
+    const prevStep = () => {
+        setErrors({});
+        goToStep(Math.max(step - 1, 0));
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
 
-        if (!validateForm()) {
-            setLoading(false);
+        // Enter en una fase intermedia equivale a "Siguiente".
+        if (step < STEPS.length - 1) {
+            nextStep();
             return;
         }
-        const dataToSubmit = { ...formData };
 
-        // Convertir las fechas a string en formato ISO
-        dataToSubmit.travelDates.startDate = formData.travelDates.startDate
-            ? formData.travelDates.startDate.toISOString().split('T')[0]
-            : null;
-        dataToSubmit.travelDates.endDate = formData.travelDates.endDate
-            ? formData.travelDates.endDate.toISOString().split('T')[0]
-            : null;
-        
-        if (!dataToSubmit.additionalPreferences.trim()) {
-            dataToSubmit.additionalPreferences = 'Nada';
+        setError('');
+        const allErrors = collectErrors();
+        if (Object.keys(allErrors).length > 0) {
+            setErrors(allErrors);
+            const firstInvalid = STEPS.findIndex((s) => s.fields.some((field) => allErrors[field]));
+            goToStep(firstInvalid === -1 ? 0 : firstInvalid);
+            return;
         }
+
+        setLoading(true);
+        const dataToSubmit = {
+            ...formData,
+            // Fechas como texto (día local, sin tocar el estado del formulario).
+            travelDates: {
+                startDate: formatISODate(formData.travelDates.startDate, 'yyyy-MM-dd'),
+                endDate: formatISODate(formData.travelDates.endDate, 'yyyy-MM-dd'),
+            },
+            foodPreferences: { cuisine: formData.foodPreferences },
+            additionalPreferences: formData.additionalPreferences.trim() || 'Nada',
+        };
 
         try {
             const response = await api.post('/trips/create', dataToSubmit);
@@ -260,6 +322,10 @@ const CreateTrip = () => {
         }
     };
 
+    const labelOf = (options, value) => options.find((option) => option.value === value)?.label || '—';
+    const formatDate = (date) => (date ? date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '—');
+    const isLastStep = step === STEPS.length - 1;
+
     return (
         <div className="create-trip-form-container">
             <span className="page-eyebrow">Nuevo viaje</span>
@@ -267,12 +333,31 @@ const CreateTrip = () => {
             <p className="create-trip-intro">Cuéntanos cómo quieres viajar y la IA preparará tu plan día a día.</p>
             {error && <div className="error-message">{error}</div>}
 
+            <ol className="wizard-steps" style={{ '--wizard-progress': `${(step / (STEPS.length - 1)) * 100}%` }}>
+                {STEPS.map((item, index) => (
+                    <li
+                        key={item.label}
+                        className={`wizard-step ${index === step ? 'is-current' : ''} ${index < step ? 'is-done' : ''}`}
+                    >
+                        <button
+                            type="button"
+                            onClick={() => index < step && goToStep(index)}
+                            disabled={index > step}
+                            aria-current={index === step ? 'step' : undefined}
+                        >
+                            <span className="wizard-step-number">{index < step ? <FontAwesomeIcon icon={faCheck} /> : index + 1}</span>
+                            <span className="wizard-step-label">{item.label}</span>
+                        </button>
+                    </li>
+                ))}
+            </ol>
+
             {/*
               Agregamos autoComplete="off" al form para reforzar
               que no se muestre autocompletado de tarjeta
             */}
-            <form onSubmit={onSubmit} autoComplete="off">
-                <section className="form-section">
+            <form onSubmit={onSubmit} autoComplete="off" noValidate>
+                <section className="form-section" hidden={step !== 0}>
                     <h3><FontAwesomeIcon icon={faInfoCircle} /> Información Básica *</h3>
                     <div className="form-group">
                         <label>Título</label>
@@ -281,7 +366,6 @@ const CreateTrip = () => {
                             name="title"
                             value={formData.title}
                             onChange={onChange}
-                            required
                             placeholder="Ingrese el título del itinerario"
                             className={errors.title ? 'input-error' : ''}
                             // autoComplete adicionalmente en off
@@ -299,7 +383,6 @@ const CreateTrip = () => {
                             name="description"
                             value={formData.description}
                             onChange={onChange}
-                            required
                             placeholder="Ingrese una descripción detallada"
                             className={errors.description ? 'input-error' : ''}
                             autoComplete="off"
@@ -321,7 +404,7 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <section className="form-section">
+                <section className="form-section" hidden={step !== 1}>
                     <h3>Fechas del Viaje *</h3>
                     <div className="form-row">
                         <div className="form-group">
@@ -404,7 +487,7 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <section className="form-section">
+                <section className="form-section" hidden={step !== 1}>
                     <h3>Destino *</h3>
                     <div className="form-row">
                         <div className="form-group">
@@ -498,7 +581,7 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <section className="form-section">
+                <section className="form-section" hidden={step !== 2}>
                     <h3>Presupuesto y Logística *</h3>
                     <div className="form-row">
                         <div className="form-group">
@@ -511,7 +594,6 @@ const CreateTrip = () => {
                                 name="budget.total"
                                 value={formData.budget.total}
                                 onChange={onChange}
-                                required
                                 min="0"
                                 placeholder="Ingrese el presupuesto total"
                                 className={errors['budget.total'] ? 'input-error' : ''}
@@ -532,7 +614,6 @@ const CreateTrip = () => {
                                 name="numberOfCities"
                                 value={formData.numberOfCities}
                                 onChange={onChange}
-                                required
                                 min="1"
                                 placeholder="Ingrese el número de ciudades"
                                 className={errors.numberOfCities ? 'input-error' : ''}
@@ -545,7 +626,7 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <section className="form-section">
+                <section className="form-section" hidden={step !== 3}>
                     <h3>Preferencias *</h3>
                     <div className="form-group">
                         <label>
@@ -774,7 +855,7 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <section className="form-section">
+                <section className="form-section" hidden={step !== 4}>
                     <h3>
                         <FontAwesomeIcon icon={faPlusCircle} /> Preferencias Adicionales
                     </h3>
@@ -794,9 +875,41 @@ const CreateTrip = () => {
                     </div>
                 </section>
 
-                <button type="submit" className="btn-primary" disabled={loading}>
-                    Crear Itinerario
-                </button>
+                {isLastStep && (
+                    <section className="form-section trip-summary">
+                        <h3><FontAwesomeIcon icon={faCheck} /> Resumen</h3>
+                        <dl>
+                            <div><dt>Título</dt><dd>{formData.title || '—'}</dd></div>
+                            <div><dt>Fechas</dt><dd>{formatDate(formData.travelDates.startDate)} - {formatDate(formData.travelDates.endDate)}</dd></div>
+                            <div><dt>Destino</dt><dd>{formData.destinationPreferences.countryName || '—'} · {formData.destinationPreferences.type || '—'}</dd></div>
+                            <div><dt>Presupuesto</dt><dd>{formData.budget.total || '—'} USD · {formData.numberOfCities || '—'} ciudad(es)</dd></div>
+                            <div><dt>Intereses</dt><dd>{formData.interests.map((value) => labelOf(interestOptions, value)).join(', ') || '—'}</dd></div>
+                            <div><dt>Comida</dt><dd>{formData.foodPreferences.map((value) => labelOf(foodOptions, value)).join(', ') || '—'}</dd></div>
+                            <div><dt>Alojamiento</dt><dd>{labelOf(accommodationOptions, formData.accommodationPreferences.type)}</dd></div>
+                            <div><dt>Transporte</dt><dd>{labelOf(transportOptions, formData.transportPreferences.preferredMode)}</dd></div>
+                            <div><dt>Compañía</dt><dd>{labelOf(travelCompanionOptions, formData.travelCompanion.type)}</dd></div>
+                            <div><dt>Ritmo</dt><dd>{labelOf(activityLevelOptions, formData.activityLevel.pace)}</dd></div>
+                        </dl>
+                    </section>
+                )}
+
+                <div className="wizard-nav">
+                    {step > 0 ? (
+                        <button type="button" className="btn-secondary" onClick={prevStep} disabled={loading}>
+                            <FontAwesomeIcon icon={faArrowLeft} /> Atrás
+                        </button>
+                    ) : <span />}
+                    <span className="wizard-count">Paso {step + 1} de {STEPS.length}</span>
+                    {isLastStep ? (
+                        <button key="submit" type="submit" className="btn-primary" disabled={loading}>
+                            <FontAwesomeIcon icon={faPlane} /> Crear Itinerario
+                        </button>
+                    ) : (
+                        <button key="next" type="button" className="btn-primary" onClick={nextStep}>
+                            Siguiente <FontAwesomeIcon icon={faArrowRight} />
+                        </button>
+                    )}
+                </div>
             </form>
 
             {loading && (

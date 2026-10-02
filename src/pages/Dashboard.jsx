@@ -68,10 +68,10 @@ const Dashboard = () => {
         });
     }, [currentPage]);
 
-    // Viajes creados por la cuenta (los compartidos no cuentan para el límite demo).
+    // Viajes generados por la cuenta: no cuentan los compartidos ni los de ejemplo.
     const ownTrips = trips.filter((trip) => {
         const creatorId = trip.createdBy?._id || trip.createdBy;
-        return !userId || String(creatorId) === String(userId);
+        return !trip.isSample && (!userId || String(creatorId) === String(userId));
     }).length;
     const demoLimitReached = isDemo && ownTrips >= DEMO_MAX_TRIPS;
 
@@ -99,7 +99,7 @@ const Dashboard = () => {
                     <div className="demo-usage-text">
                         <span className="badge badge--demo">Cuenta demo</span>
                         <span>
-                            {ownTrips} de {DEMO_MAX_TRIPS} viajes usados
+                            {ownTrips} de {DEMO_MAX_TRIPS} viajes generados
                             {demoLimitReached && ' · elimina alguno para crear otro'}
                         </span>
                     </div>
