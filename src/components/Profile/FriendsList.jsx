@@ -27,7 +27,7 @@ const FriendsList = ({ refreshTrigger }) => {
     if (loading) return <p>Cargando amigos...</p>;
 
     return (
-        <div className="friends-list">
+        <div className="card friends-list">
             <h3>Mis Amigos</h3>
             {error && <div className="error-message">{error}</div>}
             {friends.length === 0 ? (

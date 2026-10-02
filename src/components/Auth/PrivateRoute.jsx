@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
     const { authState } = useContext(AuthContext);
 
     if (authState.loading) {
-        return <div>Loading...</div>;
+        return <p className="loading-text">Cargando...</p>;
     }
 
     return authState.token ? children : <Navigate to="/login" />;

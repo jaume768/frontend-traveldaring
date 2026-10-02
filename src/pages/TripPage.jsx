@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import api from '../utils/api';
 import { useParams } from 'react-router-dom';
+import { FaUserFriends } from 'react-icons/fa';
 import TripList from '../components/Trips/TripList';
-import './css/TripPage.css';
 
 const TripPage = () => {
     const { friendId } = useParams();
@@ -13,13 +13,11 @@ const TripPage = () => {
     const fetchFriendTrips = useCallback(async () => {
         try {
             const response = await api.get(`/users/${friendId}/trips`);
-            console.log('API response:', response.data); // Para depuración
             if (Array.isArray(response.data)) {
                 setTrips(response.data);
             } else {
                 setTrips([]);
                 setError('Respuesta inesperada del servidor');
-                console.error('Datos de respuesta inesperados:', response.data);
             }
             setLoading(false);
         } catch (err) {
@@ -42,15 +40,27 @@ const TripPage = () => {
         }
     }, [fetchFriendTrips, friendId]);
 
-    if (loading) return <p>Cargando itinerarios...</p>;
-    if (error) return <div className="error-message">{error}</div>;
-    if (!Array.isArray(trips)) return <div className="error-message">Datos de itinerarios inválidos.</div>;
-    if (trips.length === 0) return <p>Este usuario no tiene itinerarios públicos o no eres amigo.</p>;
-
     return (
-        <div className="friend-trips">
-            <h2>Itinerarios de tu Amigo</h2>
-            <TripList trips={trips} />
+        <div className="page friend-trips">
+            <header className="page-header">
+                <div>
+                    <span className="page-eyebrow"><FaUserFriends /> Amigos</span>
+                    <h1 className="page-title">Itinerarios de tu Amigo</h1>
+                </div>
+            </header>
+
+            {loading ? (
+                <p className="loading-text">Cargando itinerarios...</p>
+            ) : error ? (
+                <div className="error-message">{error}</div>
+            ) : trips.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-icon"><FaUserFriends /></div>
+                    <p>Este usuario no tiene itinerarios públicos o no eres amigo.</p>
+                </div>
+            ) : (
+                <TripList trips={trips} />
+            )}
         </div>
     );
 };

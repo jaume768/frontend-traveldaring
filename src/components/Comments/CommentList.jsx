@@ -21,17 +21,22 @@ const CommentList = ({ tripId }) => {
         fetchComments();
     }, [fetchComments]);
 
-    if (loading) return <p>Cargando comentarios...</p>;
+    if (loading) return <p className="muted">Cargando comentarios...</p>;
 
     return (
         <div className="comment-list">
             {comments.length === 0 ? (
-                <p>No hay comentarios aún.</p>
+                <p className="muted">No hay comentarios aún. ¡Sé el primero!</p>
             ) : (
                 comments.map((comment) => (
                     <div key={comment._id} className="comment">
-                        <strong>{comment.user.username}</strong>
-                        <p>{comment.content}</p>
+                        <span className="comment-avatar" aria-hidden="true">
+                            {(comment.user?.username || '?').slice(0, 1).toUpperCase()}
+                        </span>
+                        <div>
+                            <strong>{comment.user?.username || 'Usuario'}</strong>
+                            <p>{comment.content}</p>
+                        </div>
                     </div>
                 ))
             )}

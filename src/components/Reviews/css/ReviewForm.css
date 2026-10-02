@@ -1,23 +1,11 @@
 .review-form {
-    background-color: #2c2c2c;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 22px;
+    padding: 24px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
 }
 
 .review-form h4 {
-    margin-bottom: 10px;
-}
-
-.review-form .form-group {
-    margin-bottom: 10px;
-}
-
-.review-form textarea {
-    height: 80px;
-    margin-bottom: 10px;
-}
-
-.review-form button {
-    width: auto;
+    margin-bottom: 14px;
 }

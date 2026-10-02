@@ -18,7 +18,8 @@ import {
     faCar, 
     faUserFriends, 
     faRunning, 
-    faPlusCircle 
+    faPlusCircle,
+    faPlane
 } from '@fortawesome/free-solid-svg-icons';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -261,7 +262,9 @@ const CreateTrip = () => {
 
     return (
         <div className="create-trip-form-container">
+            <span className="page-eyebrow">Nuevo viaje</span>
             <h2>Crear Nuevo Itinerario</h2>
+            <p className="create-trip-intro">Cuéntanos cómo quieres viajar y la IA preparará tu plan día a día.</p>
             {error && <div className="error-message">{error}</div>}
 
             {/*
@@ -798,7 +801,16 @@ const CreateTrip = () => {
 
             {loading && (
                 <div className="loading-overlay">
-                    <img src="/gifs/reload.gif" alt="Cargando..." className="spinner-gif" />
+                    <div className="trip-loader" role="status">
+                        <div className="trip-loader-orbit">
+                            <FontAwesomeIcon icon={faPlane} className="trip-loader-plane" />
+                        </div>
+                        <h3>Preparando tu itinerario</h3>
+                        <p>
+                            La IA está eligiendo ciudades, actividades y alojamiento
+                            <span className="trip-loader-dots"><span>.</span><span>.</span><span>.</span></span>
+                        </p>
+                    </div>
                 </div>
             )}
         </div>

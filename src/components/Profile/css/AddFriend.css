@@ -1,0 +1,6 @@
+@import './CustomLists.css';
+
+.add-friend .message {
+    margin-top: 12px;
+    color: var(--text-muted);
+}

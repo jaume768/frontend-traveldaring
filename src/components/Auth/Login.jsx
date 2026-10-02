@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext, DEMO_MAX_TRIPS } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaLock, FaCheckCircle } from 'react-icons/fa';
+import DemoButton from './DemoButton';
 import './css/Auth.css';
 
 const Login = () => {
@@ -11,8 +13,8 @@ const Login = () => {
         email: '',
         password: '',
     });
-
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     const { email, password } = formData;
 
@@ -21,24 +23,52 @@ const Login = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
         try {
             await login(email, password);
             navigate('/dashboard');
         } catch (errMsg) {
             setError(errMsg);
+        } finally {
+            setSubmitting(false);
         }
     };
 
     return (
-        <div className="auth-container">
-            <header className="auth-header">
-                <div className="auth-overlay">
-                    <div className="auth-form-container">
-                        <h2 className="auth-title">Iniciar Sesión</h2>
-                        {error && <div className="error-message">{error}</div>}
-                        <form onSubmit={onSubmit} className="auth-form">
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
+        <div className="auth-page">
+            <div className="auth-card">
+                <aside className="auth-visual" style={{ backgroundImage: 'url(/images/fondo.jpg)' }}>
+                    <div className="auth-visual-content">
+                        <h2>Planifica tu próximo viaje con IA</h2>
+                        <ul>
+                            <li><FaCheckCircle /> Itinerarios día a día en segundos</li>
+                            <li><FaCheckCircle /> Actividades reales en cada ciudad</li>
+                            <li><FaCheckCircle /> Edita, comparte y descarga en PDF</li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <section className="auth-form-container">
+                    <h1 className="auth-title">Iniciar Sesión</h1>
+                    <p className="auth-subtitle">Entra con tu cuenta o prueba la aplicación con el usuario demo.</p>
+
+                    {error && <div className="error-message">{error}</div>}
+
+                    <div className="demo-box">
+                        <div>
+                            <strong>Usuario demo</strong>
+                            <span>Sin registro · hasta {DEMO_MAX_TRIPS} viajes</span>
+                        </div>
+                        <DemoButton className="btn-primary" onError={setError}>Probar la demo</DemoButton>
+                    </div>
+
+                    <div className="auth-divider"><span>o entra con tu cuenta</span></div>
+
+                    <form onSubmit={onSubmit} className="auth-form">
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <div className="input-with-icon">
+                                <FaEnvelope aria-hidden="true" />
                                 <input
                                     type="email"
                                     id="email"
@@ -47,10 +77,14 @@ const Login = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="Ingresa tu email"
+                                    autoComplete="email"
                                 />
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Contraseña</label>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Contraseña</label>
+                            <div className="input-with-icon">
+                                <FaLock aria-hidden="true" />
                                 <input
                                     type="password"
                                     id="password"
@@ -59,21 +93,16 @@ const Login = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="Ingresa tu contraseña"
+                                    autoComplete="current-password"
                                 />
                             </div>
-                            <p className="register-prompt">
-                                ¿No tienes una cuenta?{' '}
-                                <Link to="/register" className="register-link">
-                                    Regístrate aquí
-                                </Link>
-                            </p>
-                            <button type="submit" className="auth-button">
-                                Iniciar Sesión
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </header>
+                        </div>
+                        <button type="submit" className="btn-secondary btn-block auth-button" disabled={submitting}>
+                            {submitting ? 'Entrando...' : 'Iniciar Sesión'}
+                        </button>
+                    </form>
+                </section>
+            </div>
         </div>
     );
 };

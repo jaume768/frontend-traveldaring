@@ -4,6 +4,9 @@ import api from '../utils/api';
 
 export const AuthContext = createContext();
 
+// Máximo de viajes de la cuenta demo (lo impone el backend).
+export const DEMO_MAX_TRIPS = 10;
+
 export const AuthProvider = ({ children }) => {
     const [authState, setAuthState] = useState({
         token: localStorage.getItem('token'),
@@ -23,12 +26,18 @@ export const AuthProvider = ({ children }) => {
                     }));
                 } catch (error) {
                     console.error(error);
-                    localStorage.removeItem('token');
-                    setAuthState({
-                        token: null,
-                        user: null,
-                        loading: false,
-                    });
+                    // Solo se cierra la sesión si el servidor rechaza el token; un fallo
+                    // de red o una petición cancelada no debe expulsar al usuario.
+                    if (error.response?.status === 401) {
+                        localStorage.removeItem('token');
+                        setAuthState({
+                            token: null,
+                            user: null,
+                            loading: false,
+                        });
+                    } else {
+                        setAuthState((prevState) => ({ ...prevState, loading: false }));
+                    }
                 }
             } else {
                 setAuthState({
@@ -42,55 +51,39 @@ export const AuthProvider = ({ children }) => {
         loadUser();
     }, [authState.token]);
 
+    // Guarda el token y carga el perfil del usuario autenticado.
+    const startSession = async (token) => {
+        localStorage.setItem('token', token);
+        setAuthState({
+            token,
+            user: jwtDecode(token),
+            loading: false,
+        });
+        const profileResponse = await api.get('/users/profile');
+        setAuthState({
+            token,
+            user: profileResponse.data.profile,
+            loading: false,
+        });
+    };
+
     const login = async (email, password) => {
         try {
             const response = await api.post('/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token);
-            setAuthState({
-                token: response.data.token,
-                user: jwtDecode(response.data.token),
-                loading: false,
-            });
-            const profileResponse = await api.get('/users/profile');
-            setAuthState({
-                token: response.data.token,
-                user: profileResponse.data.profile,
-                loading: false,
-            });
+            await startSession(response.data.token);
         } catch (error) {
             const errorMessage = error.response?.data?.msg || 'Error al iniciar sesión';
             throw errorMessage;
         }
     };
 
-    // Devuelve true si el backend inicia la sesión al registrarse (cuenta
-    // verificada automáticamente) y false si hay que verificar el email antes.
-    const register = async (username, email, password) => {
+    // Entra con la cuenta de demostración compartida (sin credenciales).
+    const loginDemo = async () => {
         try {
-            const response = await api.post('/auth/register', { username, email, password });
-            const token = response.data.token;
-            if (!token) {
-                return false;
-            }
-            localStorage.setItem('token', token);
-            setAuthState({
-                token,
-                user: jwtDecode(token),
-                loading: false,
-            });
-            try {
-                const profileResponse = await api.get('/users/profile');
-                setAuthState({
-                    token,
-                    user: profileResponse.data.profile,
-                    loading: false,
-                });
-            } catch (profileError) {
-                console.error("Error al obtener el perfil del usuario después del registro:", profileError);
-            }
-            return true;
+            const response = await api.post('/auth/demo');
+            await startSession(response.data.token);
         } catch (error) {
-            const errorMessage = error.response?.data?.msg || 'Error al registrarse';
+            const errorMessage = error.response?.data?.msg || 'No se pudo iniciar la demo';
             throw errorMessage;
         }
     };
@@ -105,7 +98,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ authState, login, register, logout }}>
+        <AuthContext.Provider value={{ authState, login, loginDemo, logout }}>
             {children}
         </AuthContext.Provider>
     );

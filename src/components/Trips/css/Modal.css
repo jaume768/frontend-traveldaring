@@ -1,131 +1,105 @@
-/* Modal.css */
-
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--background-overlay);
+    inset: 0;
+    z-index: 1100;
     display: flex;
-    align-items: center; /* Centrado vertical por defecto */
+    align-items: flex-start;
     justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Nueva clase para posicionar el modal en la parte superior */
-.modal-overlay.modal-top {
-    align-items: flex-start; /* Alinea el modal al inicio (parte superior) */
-    justify-content: center; /* Centra horizontalmente */
-    padding-top: 50px; /* Espacio desde la parte superior, ajustable según necesidad */
-    overflow-y: auto; /* Permite scroll si el contenido es muy largo */
-    transition: padding-top 0.3s ease;
+    padding: calc(var(--nav-h) + 20px) 16px 30px;
+    background: rgba(2, 8, 18, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow-y: auto;
+    animation: overlay-in 0.3s var(--ease) both;
 }
 
 .modal-content {
-    background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro con opacidad para mejor contraste */
-    padding: 20px;
-    border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 700px; /* Aumentado para acomodar más contenido */
-    box-shadow: var(--box-shadow);
-    font-family: var(--font-family);
-    overflow-y: auto;
+    width: min(720px, 100%);
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    background: #0b1a2f;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 40px 100px rgba(0, 4, 14, 0.7);
+    animation: modal-in 0.4s var(--ease) both;
 }
 
 .modal-content h3 {
-    margin-top: 0;
-    color: var(--primary-color);
+    font-size: 1.45rem;
+    margin-bottom: 18px;
 }
 
-.modal-content form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
+.modal-content h4 {
+    margin: 22px 0 10px;
+    font-size: 1.05rem;
 }
 
-.modal-content form input,
-.modal-content form textarea,
-.modal-content form select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-family: var(--font-family);
+.modal-content p {
+    color: var(--text-muted);
+}
+
+.modal-content label {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 14px;
 }
 
 .modal-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 24px;
 }
 
-.btn-save {
-    background-color: var(--success-color);
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.btn-save,
+.btn-share {
+    background: var(--gradient-brand);
+    color: #03101f;
+    box-shadow: var(--shadow-glow);
 }
 
-.btn-save:hover {
-    background-color: #28a745;
+.btn-save:hover,
+.btn-share:hover {
+    transform: translateY(-2px);
 }
 
 .btn-cancel {
-    background-color: #6c757d;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background: var(--surface-strong);
+    border-color: var(--border-strong);
+    color: var(--text);
 }
 
 .btn-cancel:hover {
-    background-color: #5a6268;
+    border-color: var(--accent);
+    transform: translateY(-2px);
 }
 
-.error-message {
-    background-color: var(--error-color);
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-    text-align: center;
+.field-error {
+    font-size: 0.82rem;
+    color: #ff9aa8;
 }
 
-.success-message {
-    background-color: #28a745;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-    text-align: center;
+input.invalid,
+textarea.invalid {
+    border-color: var(--danger);
 }
 
-/* Responsividad para modal-top */
-@media (max-width: 600px) {
+@keyframes overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
     .modal-content {
-        width: 95%;
-        padding: 15px;
+        padding: 22px 18px;
     }
 
-    .btn-save,
-    .btn-cancel {
-        padding: 8px 16px;
-        font-size: 0.9rem;
+    .modal-actions > * {
+        flex: 1;
     }
 }

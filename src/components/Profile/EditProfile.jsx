@@ -33,7 +33,7 @@ const EditProfile = ({ profile, refreshProfile }) => {
     };
 
     return (
-        <div className="edit-profile">
+        <div className="card edit-profile">
             <h3>Editar Perfil</h3>
             {error && <div className="error-message">{error}</div>}
             {success && <div className="success-message">{success}</div>}

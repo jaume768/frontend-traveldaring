@@ -5,7 +5,7 @@ import FeaturesSection from '../components/Home/FeaturesSection';
 import TestimonialsSection from '../components/Home/TestimonialsSection';
 import CallToActionSection from '../components/Home/CallToActionSection';
 import Footer from '../components/Home/Footer';
-import './css/Home.css';
+import '../components/Home/css/Home.css';
 
 const Home = () => {
   return (

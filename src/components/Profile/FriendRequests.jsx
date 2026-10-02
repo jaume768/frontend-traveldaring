@@ -49,7 +49,7 @@ const FriendRequests = ({ onFriendAccepted }) => {
     if (loading) return <p>Cargando solicitudes...</p>;
 
     return (
-        <div className="friend-requests">
+        <div className="card friend-requests">
             <h3>Solicitudes de Amistad</h3>
             {error && <div className="error-message">{error}</div>}
             {requests.length === 0 ? (

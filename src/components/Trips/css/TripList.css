@@ -1,121 +1,153 @@
-@import '../../../variables.css';
-
 .trip-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
 }
 
 .trip-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    color: var(--text-color);
-    transition: background-color 0.3s ease;
-    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    transition: transform 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
+    animation: fade-up 0.7s var(--ease) both;
 }
 
 .trip-card:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+    transform: translateY(-8px);
+    border-color: rgba(92, 225, 255, 0.45);
+    box-shadow: 0 26px 60px rgba(0, 8, 24, 0.55), 0 0 0 1px rgba(92, 225, 255, 0.12);
 }
 
-.trip-card h3 {
-    margin-bottom: 10px;
-    color: var(--secondary-color);
-}
-
-.trip-card p {
-    margin-bottom: 10px;
-    min-height: 50px;
-}
-
-/* Contenedor fijo para la imagen o placeholder */
 .trip-image-container {
-    width: 100%;
-    height: 180px; /* Ajusta la altura según convenga */
-    border-radius: var(--border-radius);
-    background: #ccc; /* Fondo por defecto */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 15px 0;
-    overflow: hidden; /* Para que la imagen quede bien dentro del contenedor */
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0b3c7a, #0a7cff 60%, #5ce1ff);
+}
+
+.trip-image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(5, 13, 26, 0.75) 100%);
+    pointer-events: none;
 }
 
 .trip-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.9s var(--ease);
+}
+
+.trip-card:hover .trip-image {
+    transform: scale(1.08);
 }
 
 .no-image-placeholder {
-    color: #333;
-    font-size: 0.9rem;
-    text-align: center;
-    padding: 10px;
-    line-height: 1.2;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.no-image-placeholder svg {
+    transform: rotate(-20deg);
+    transition: transform 0.9s var(--ease);
+}
+
+.trip-card:hover .no-image-placeholder svg {
+    transform: rotate(-20deg) translate(26px, -14px) scale(1.1);
+}
+
+.trip-public,
+.trip-country {
+    position: absolute;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.76rem;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(5, 13, 26, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
 .trip-public {
-    font-size: 0.9rem;
-    position: absolute;
-    bottom: -30px;
-    right: 10px;
-    padding: 0;
-    border-radius: 0;
-    display: block;
-    color: inherit;
+    top: 14px;
+    right: 14px;
 }
 
 .trip-public.public {
-    color: #ffffff;
+    color: var(--accent);
 }
 
-.trip-public.private {
-    color: #ffffff;
+.trip-country {
+    left: 14px;
+    bottom: 14px;
 }
 
-.btn-secondary {
-    color: #fff;
-    border: none;
-    padding: var(--button-padding);
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: var(--font-size-button);
-    text-decoration: none;
-    margin: auto;
-    align-self: flex-start;
-    background: var(--secondary-color);
+.trip-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px;
 }
 
-.btn-secondary:hover {
-    background-color: #419e8a;
+.trip-card-body h3 {
+    font-size: 1.18rem;
 }
 
-@media (max-width: 768px) {
-    .trip-public {
-        font-size: 0.8rem;
-    }
-
-    .btn-secondary {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
+.trip-card-body p {
+    color: var(--text-muted);
+    font-size: 0.94rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-@media (max-width: 480px) {
-    .trip-public {
-        font-size: 0.7rem;
-    }
+.trip-card-footer {
+    margin-top: auto;
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 0.86rem;
+}
 
-    .btn-secondary {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
+.trip-dates {
+    color: var(--text-faint);
+}
+
+.trip-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.trip-card-link svg {
+    transition: transform 0.3s var(--ease);
+}
+
+.trip-card:hover .trip-card-link svg {
+    transform: translateX(5px);
 }

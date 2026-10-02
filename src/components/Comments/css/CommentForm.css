@@ -1,60 +1,23 @@
-@import '../../../variables.css';
-
 .comment-form {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    color: var(--text-color);
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
 }
 
-.comment-form h3 {
-    margin-bottom: 15px;
-    color: var(--secondary-color);
+.comment-form h4 {
+    font-size: 1rem;
+    margin-bottom: 12px;
 }
 
 .comment-form form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.comment-form .form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.comment-form label {
-    margin-bottom: 5px;
-    font-weight: 600;
+    display: grid;
+    gap: 12px;
 }
 
 .comment-form textarea {
-    padding: 12px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    resize: vertical;
+    min-height: 90px;
 }
 
-.comment-form textarea:focus {
-    outline: 2px solid var(--secondary-color);
-}
-
-.comment-form button {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    padding: var(--button-padding);
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: var(--font-size-button);
-    align-self: flex-start;
-}
-
-.comment-form button:hover {
-    background-color: var(--primary-hover);
+.comment-form .btn-primary {
+    justify-self: end;
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+// Los estilos base van antes que la app para que los de cada componente los puedan sobrescribir.
 import './index.css';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>

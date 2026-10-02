@@ -1,213 +1,63 @@
-/* src/pages/Dashboard/css/Dashboard.css */
-
-@import '../../variables.css';
-
-/* Definir la variable --vh para manejar la altura del viewport */
-:root {
-    --vh: 100vh;
+.demo-usage {
+    display: grid;
+    gap: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    border-radius: var(--radius);
+    background: rgba(255, 200, 87, 0.07);
+    border: 1px solid rgba(255, 200, 87, 0.28);
+    animation: pop-in 0.4s var(--ease) both;
 }
 
-/* Reset de márgenes y paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.demo-usage--full {
+    background: rgba(255, 93, 115, 0.08);
+    border-color: rgba(255, 93, 115, 0.4);
 }
 
-/* Contenedor principal para Dashboard */
-.dashboard-container {
-    min-height: calc(var(--vh, 1vh) * 100);
-    background: url('https://wallpapers.com/images/hd/travel-hd-4zjwrepl0mzn70nd.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
+.demo-usage-text {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    font-family: var(--font-family);
+    gap: 12px;
+    font-size: 0.94rem;
+    color: var(--text-muted);
 }
 
-/* Superposición oscura para mejorar la legibilidad */
-.dashboard-overlay {
-    background: var(--background-overlay, rgba(0, 0, 0, 0.6));
-    width: 100%;
-    min-height: calc(var(--vh, 1vh) * 100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.demo-usage-bar {
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
 }
 
-/* Contenedor de contenido con diseño de tarjeta */
-.dashboard-content {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: var(--border-radius, 10px);
-    max-width: 900px;
-    width: 100%;
-    box-shadow: var(--box-shadow, 0 4px 15px rgba(0,0,0,0.2));
-    backdrop-filter: blur(15px);
-    text-align: center;
-    color: var(--text-color, #fff);
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 10px;
-    overflow-y: auto;
+.demo-usage-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--brand), var(--accent));
+    transition: width 0.8s var(--ease);
 }
 
-/* Título del Dashboard */
-.dashboard-title {
-    font-size: var(--font-size-title, 2.5rem);
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: var(--secondary-color, #fff);
+.demo-usage--full .demo-usage-bar span {
+    background: linear-gradient(90deg, var(--warning), var(--danger));
 }
 
-/* Botón primario */
-.dashboard-button {
-    background-color: var(--primary-color, #3f51b5);
-    color: #fff;
-    border: none;
-    padding: var(--button-padding, 12px 30px);
-    border-radius: var(--button-radius, 25px);
-    text-decoration: none;
-    font-size: var(--font-size-button, 1rem);
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 20px;
-    align-self: center;
-}
-
-.dashboard-button:hover {
-    background-color: var(--primary-hover, #2c3e8a);
-}
-
-/* Texto de carga */
-.loading-text {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    color: var(--text-color, #fff);
-}
-
-.no-trips-text {
-    font-size: 1.2rem;
-    margin-top: 20px;
-    color: var(--text-color, #ddd);
-}
-
-/* Mensaje de error */
-.error-message {
-    background-color: var(--error-color, #ff4d4d);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 500;
-}
-
-/* Contenedor del buscador */
 .search-container-dashboard {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    position: relative;
+    max-width: 460px;
+    margin-bottom: 30px;
+}
+
+.search-container-dashboard svg {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+    pointer-events: none;
 }
 
 .search-input-dashboard {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: var(--border-radius, 8px);
-    font-size: 1rem;
-    outline: none;
-    box-shadow: var(--box-shadow, 0 2px 4px rgba(0,0,0,0.1));
-}
-
-.search-input-dashboard::placeholder {
-    color: #ccc;
-}
-
-/* Responsividad */
-@media (max-width: 1024px) {
-    .dashboard-content {
-        padding: 30px;
-    }
-
-    .dashboard-title {
-        font-size: 2.2rem;
-    }
-
-    .dashboard-button {
-        padding: 12px 30px;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-container {
-        background-attachment: scroll; /* Cambiar fixed a scroll */
-    }
-
-    .dashboard-overlay {
-        min-height: calc(var(--vh, 1vh) * 100);
-    }
-
-    .dashboard-content {
-        padding: 25px;
-    }
-
-    .dashboard-title {
-        font-size: 2rem;
-    }
-
-    .dashboard-button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    .loading-text,
-    .no-trips-text {
-        font-size: 1rem;
-    }
-
-    .search-input-dashboard {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .dashboard-container {
-        background-attachment: scroll; /* Asegurarse de que sigue scroll */
-    }
-
-    .dashboard-overlay {
-        min-height: calc(var(--vh, 1vh) * 100);
-    }
-
-    .dashboard-content {
-        padding: 20px;
-    }
-
-    .dashboard-title {
-        font-size: 1.8rem;
-    }
-
-    .dashboard-button {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-    }
-
-    .loading-text,
-    .no-trips-text {
-        font-size: 0.9rem;
-    }
-
-    .search-input-dashboard {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
+    padding-left: 46px !important;
+    border-radius: var(--radius-pill) !important;
 }

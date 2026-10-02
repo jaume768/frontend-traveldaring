@@ -1,108 +1,33 @@
 .notfound-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: url('https://wallpapers.com/images/hd/travel-hd-4zjwrepl0mzn70nd.jpg') no-repeat center center fixed;
-    background-size: cover;
-    padding: 20px;
+    min-height: calc(var(--vh, 1vh) * 100 - var(--nav-h));
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+    text-align: center;
 }
 
 .notfound-content {
-    background: #212529d9;
-    border-radius: 8px;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
+    animation: page-in 0.7s var(--ease) both;
 }
 
 .notfound-icon {
     font-size: 3rem;
-    color: #ffcc00;
-    margin-bottom: 20px;
+    color: var(--accent);
+    animation: float 4s ease-in-out infinite;
 }
 
 .notfound-content h1 {
-    font-size: 4rem;
-    margin-bottom: 10px;
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    margin: 10px 0;
 }
 
 .notfound-content h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 1.6rem;
 }
 
 .notfound-content p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-}
-
-.notfound-button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 25px;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.notfound-button:hover {
-    background-color: #0056b3;
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-    .notfound-content {
-        padding: 30px;
-    }
-
-    .notfound-icon {
-        font-size: 2.5rem;
-    }
-
-    .notfound-content h1 {
-        font-size: 3rem;
-    }
-
-    .notfound-content h2 {
-        font-size: 1.8rem;
-    }
-
-    .notfound-content p {
-        font-size: 1rem;
-    }
-
-    .notfound-button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .notfound-content {
-        padding: 20px;
-    }
-
-    .notfound-icon {
-        font-size: 2rem;
-    }
-
-    .notfound-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .notfound-content h2 {
-        font-size: 1.6rem;
-    }
-
-    .notfound-content p {
-        font-size: 0.9rem;
-    }
-
-    .notfound-button {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-    }
+    margin: 12px 0 28px;
+    color: var(--text-muted);
 }

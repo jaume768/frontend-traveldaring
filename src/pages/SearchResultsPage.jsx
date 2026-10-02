@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 import api from '../utils/api';
-import './css/SearchResultsPage.css';
+import TripList from '../components/Trips/TripList';
 
 const SearchResultsPage = () => {
     const location = useLocation();
@@ -20,6 +21,7 @@ const SearchResultsPage = () => {
         if (query.trim() !== '') {
             const fetchResults = async () => {
                 setLoading(true);
+                setError('');
                 try {
                     const response = await api.get(`/search?q=${encodeURIComponent(query)}`);
                     setResults(response.data);
@@ -38,46 +40,33 @@ const SearchResultsPage = () => {
     }, [query]);
 
     return (
-        <div className="search-container">
-            <div className="search-overlay">
-                <div className="search-content">
-                    {loading ? (
-                        <p className="loading-text">Cargando resultados...</p>
-                    ) : (
-                        <>
-                            <h1 className="search-title">Resultados de búsqueda para: {query}</h1>
-                            {error && <div className="error-message">{error}</div>}
-                            {results.length === 0 ? (
-                                <p className="no-results-text">No se encontraron resultados.</p>
-                            ) : (
-                                <ul className="search-results-list">
-                                    {results.map((trip) => (
-                                        <li key={trip._id} className="search-result-item">
-                                            <div className="result-text">
-                                                <h3 className="result-title">{trip.title}</h3>
-                                                <p className="result-description">{trip.description}</p>
-                                                {trip.createdBy && (
-                                                    <p className="result-author">Creado por: {trip.createdBy.username}</p>
-                                                )}
-                                                <a href={`/trips/${trip._id}`} className="result-link">Ver Itinerario</a>
-                                            </div>
-                                            {(trip.link || trip.imageUrl) && (
-                                                <div className="result-image-container">
-                                                    <img
-                                                        src={trip.link || trip.imageUrl}
-                                                        alt={`Imagen del itinerario ${trip.title}`}
-                                                        className="result-image"
-                                                    />
-                                                </div>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </>
+        <div className="page">
+            <header className="page-header">
+                <div>
+                    <span className="page-eyebrow"><FaSearch /> Búsqueda</span>
+                    <h1 className="page-title search-title">
+                        Resultados para <span className="gradient-text">“{query}”</span>
+                    </h1>
+                    {!loading && !error && (
+                        <p className="page-subtitle">
+                            {results.length} {results.length === 1 ? 'itinerario encontrado' : 'itinerarios encontrados'}
+                        </p>
                     )}
                 </div>
-            </div>
+            </header>
+
+            {loading ? (
+                <p className="loading-text">Cargando resultados...</p>
+            ) : error ? (
+                <div className="error-message">{error}</div>
+            ) : results.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-icon"><FaSearch /></div>
+                    <p>No se encontraron resultados.</p>
+                </div>
+            ) : (
+                <TripList trips={results} />
+            )}
         </div>
     );
 };

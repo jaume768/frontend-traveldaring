@@ -1,50 +1,5 @@
-/* ConfirmDeleteModal.css */
-
-/* Hereda estilos de Modal.css, así que solo agregamos estilos específicos si es necesario */
-
-/* Título del modal */
-.modal-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--primary-color); /* Asegura que el color sea consistente */
-}
-
-/* Párrafo de confirmación */
-.modal-content p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    color: var(--text-color);
-}
-
-/* Botón de eliminar */
-.btn-delete {
-    background-color: #e74c3c; /* Rojo para acciones destructivas */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-delete:hover {
-    background-color: #c0392b;
-}
-
-/* Reutiliza .btn-cancel de Modal.css, por lo que no es necesario redefinirlo */
-
-/* Responsividad */
-@media (max-width: 600px) {
-    .modal-content h3 {
-        font-size: 1.3rem;
-    }
-
-    .modal-content p {
-        font-size: 0.95rem;
-    }
-
-    .modal-actions button {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
+/* El modal de confirmación usa los estilos comunes de Modal.css; aquí solo se estrecha. */
+.modal-content:has(.btn-delete) {
+    width: min(460px, 100%);
+    margin-top: 8vh;
 }

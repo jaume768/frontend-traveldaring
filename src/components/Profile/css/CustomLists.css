@@ -1,85 +1,33 @@
-@import '../../../variables.css';
-
-.custom-lists {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    color: var(--text-color);
-}
-
-.custom-lists h3 {
-    margin-bottom: 15px;
-    color: var(--secondary-color);
+.custom-lists,
+.favorites,
+.add-friend {
+    padding: 28px;
+    margin-top: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
 }
 
 .create-list-form {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .create-list-form input {
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    flex: 1 1 220px;
 }
 
-.create-list-form input:focus {
-    outline: 2px solid var(--secondary-color);
+.custom-list,
+.favorite-trip {
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: rgba(4, 12, 26, 0.45);
+    border: 1px solid var(--border);
 }
 
-.create-list-form .btn-primary {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    padding: var(--button-padding);
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-}
-
-.create-list-form .btn-primary:hover {
-    background-color: var(--primary-hover);
-}
-
-.custom-list {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.custom-list:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.custom-list h4 {
-    margin-bottom: 10px;
-    color: var(--secondary-color);
-}
-
-.custom-list ul {
-    list-style: none;
-    padding-left: 15px;
-}
-
-.custom-list ul li {
-    margin-bottom: 5px;
-}
-
-.custom-list a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.custom-list a:hover {
-    color: var(--secondary-color);
+.custom-list + .custom-list,
+.favorite-trip + .favorite-trip {
+    margin-top: 10px;
 }

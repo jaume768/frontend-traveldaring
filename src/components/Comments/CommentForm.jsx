@@ -14,7 +14,7 @@ const CommentForm = ({ tripId, refreshTrip }) => {
             setContent('');
             refreshTrip();
         } catch (err) {
-            setError(err.response.data.msg || 'Error al agregar el comentario');
+            setError(err.response?.data?.msg || 'Error al agregar el comentario');
         }
     };
 

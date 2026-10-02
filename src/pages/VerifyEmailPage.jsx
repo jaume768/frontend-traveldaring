@@ -28,7 +28,7 @@ const VerifyEmailPage = () => {
     }
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <div className="page page--narrow" style={{ textAlign: 'center' }}>
             <h1>{message}</h1>
         </div>
     );

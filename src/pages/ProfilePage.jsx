@@ -5,6 +5,7 @@ import api, { uploadProfilePicture } from '../utils/api';
 import FriendsList from '../components/Profile/FriendsList';
 import FriendRequests from '../components/Profile/FriendRequests';
 import EditProfile from '../components/Profile/EditProfile';
+import { FaCamera, FaSignOutAlt, FaUserPlus, FaUserMinus, FaTimes } from 'react-icons/fa';
 import './css/ProfilePage.css';
 
 const ProfilePage = () => {
@@ -137,117 +138,130 @@ const ProfilePage = () => {
         alert('Función para eliminar amigos aún no implementada.');
     };
 
-    if (loading) return <p className="loading-text">Cargando perfil...</p>;
-    if (error) return <div className="error-message">{error}</div>;
-    if (!profile) return <div className="error-message">Perfil no encontrado.</div>;
+    if (loading) return <div className="page page--narrow"><p className="loading-text">Cargando perfil...</p></div>;
+    if (error) return <div className="page page--narrow"><div className="error-message">{error}</div></div>;
+    if (!profile) return <div className="page page--narrow"><div className="error-message">Perfil no encontrado.</div></div>;
+
+    const isDemo = Boolean(profile.isDemo);
+    const roleLabels = { free: 'Plan gratuito', premium: 'Premium', pro: 'Pro', vip: 'VIP', admin: 'Administrador' };
 
     return (
-        <div className="profile-container">
-            <div className="profile-overlay">
-                <div className="profile-content">
-                    <div className="profile-header">
-                        <img
-                            src={profile.profilePicture?.url || 'https://via.placeholder.com/150'}
-                            alt={`${profile.username} Avatar`}
-                            className="profile-picture"
-                        />
-                        <div className="profile-info">
-                            <h2 className="profile-title">{isOwnProfile ? 'Mi Perfil' : profile.username}</h2>
-                            {!isOwnProfile && (
-                                <div className="profile-actions">
-                                    {!isFriend && !friendRequestSent && (
-                                        <button
-                                            className="add-friend-button"
-                                            onClick={sendFriendRequest}
-                                            aria-label="Agregar Amigo"
-                                        >
-                                            <i className="fas fa-user-plus"></i> Agregar Amigo
-                                        </button>
-                                    )}
-                                    {!isFriend && friendRequestSent && (
-                                        <button
-                                            className="cancel-friend-request-button"
-                                            onClick={cancelFriendRequest}
-                                            aria-label="Cancelar Solicitud de Amistad"
-                                        >
-                                            <i className="fas fa-times"></i> Cancelar Solicitud
-                                        </button>
-                                    )}
-                                    {isFriend && (
-                                        <button
-                                            className="unfriend-button"
-                                            onClick={handleUnfriend}
-                                            aria-label="Eliminar Amigo"
-                                        >
-                                            <i className="fas fa-user-minus"></i> Eliminar Amigo
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-                        </div>
+        <div className="page page--narrow profile-page">
+            <header className="card profile-header">
+                {previewImage || profile.profilePicture?.url ? (
+                    <img
+                        src={previewImage || profile.profilePicture.url}
+                        alt={`${profile.username} Avatar`}
+                        className="profile-picture"
+                    />
+                ) : (
+                    <span className="profile-picture profile-picture--initials" aria-hidden="true">
+                        {(profile.username || '?').slice(0, 2).toUpperCase()}
+                    </span>
+                )}
+                <div className="profile-info">
+                    <span className="page-eyebrow">{isOwnProfile ? 'Mi Perfil' : 'Perfil'}</span>
+                    <h1 className="profile-title">{profile.username}</h1>
+                    <div className="profile-badges">
+                        {profile.role && <span className="badge">{roleLabels[profile.role] || profile.role}</span>}
+                        {isDemo && <span className="badge badge--demo">Cuenta demo</span>}
                     </div>
-
-                    {isOwnProfile && (
-                        <>
-                            {/* Sección para subir la foto de perfil */}
-                            <div className="profile-upload-section">
-                                <button
-                                    className="dashboard-button btn-upload-photo"
-                                    onClick={() => document.getElementById('profileImageInput').click()}
-                                >
-                                    {profile.profilePicture?.url ? 'Cambiar Foto' : 'Añadir Foto'}
-                                </button>
-
-                                {/* Input oculto para seleccionar la imagen */}
-                                <input
-                                    type="file"
-                                    id="profileImageInput"
-                                    accept="image/*"
-                                    style={{ display: 'none' }}
-                                    onChange={handleImageChange}
-                                />
-
-                                {/* Previsualización de la imagen seleccionada */}
-                                {previewImage && (
-                                    <div className="image-preview">
-                                        <img src={previewImage} alt="Previsualización" className="itinerary-image-preview" />
-                                    </div>
-                                )}
-
-                                {/* Botones para subir o cancelar */}
-                                {imageFile && (
-                                    <div className="upload-controls">
-                                        <button className="dashboard-button btn-upload" onClick={handleUploadImage} disabled={uploading}>
-                                            {uploading ? 'Subiendo...' : 'Subir Imagen'}
-                                        </button>
-                                        <button className="dashboard-button btn-cancel" onClick={() => { setImageFile(null); setPreviewImage(null); }} disabled={uploading}>
-                                            Cancelar
-                                        </button>
-                                        {uploadError && <p className="error-message">{uploadError}</p>}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Otros componentes del perfil */}
-                            <EditProfile profile={profile} refreshProfile={fetchProfile} />
-                            <FriendsList refreshTrigger={friendsUpdated} /> {/* Pasar refreshTrigger */}
-                            <FriendRequests onFriendAccepted={updateFriends} /> {/* Pasar onFriendAccepted */}
-                            <div className="logout-section">
-                                <button onClick={handleLogout} className="logout-button">
-                                    Cerrar Sesión
-                                </button>
-                            </div>
-                        </>
-                    )}
+                    {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
                     {!isOwnProfile && (
-                        <div className="public-profile-details">
-                            <p><strong>Email:</strong> {profile.email}</p>
-                            {profile.bio && <p><strong>Biografía:</strong> {profile.bio}</p>}
+                        <div className="profile-actions">
+                            {!isFriend && !friendRequestSent && (
+                                <button
+                                    className="btn-primary add-friend-button"
+                                    onClick={sendFriendRequest}
+                                    aria-label="Agregar Amigo"
+                                >
+                                    <FaUserPlus /> Agregar Amigo
+                                </button>
+                            )}
+                            {!isFriend && friendRequestSent && (
+                                <button
+                                    className="btn-secondary cancel-friend-request-button"
+                                    onClick={cancelFriendRequest}
+                                    aria-label="Cancelar Solicitud de Amistad"
+                                >
+                                    <FaTimes /> Cancelar Solicitud
+                                </button>
+                            )}
+                            {isFriend && (
+                                <button
+                                    className="btn btn-danger unfriend-button"
+                                    onClick={handleUnfriend}
+                                    aria-label="Eliminar Amigo"
+                                >
+                                    <FaUserMinus /> Eliminar Amigo
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {isOwnProfile && !isDemo && (
+                        <div className="profile-upload-section">
+                            {!imageFile && (
+                                <button
+                                    className="btn-secondary btn-upload-photo"
+                                    onClick={() => document.getElementById('profileImageInput').click()}
+                                >
+                                    <FaCamera /> {profile.profilePicture?.url ? 'Cambiar Foto' : 'Añadir Foto'}
+                                </button>
+                            )}
+                            <input
+                                type="file"
+                                id="profileImageInput"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={handleImageChange}
+                            />
+                            {imageFile && (
+                                <div className="upload-controls">
+                                    <button className="btn-primary btn-upload" onClick={handleUploadImage} disabled={uploading}>
+                                        {uploading ? 'Subiendo...' : 'Subir Imagen'}
+                                    </button>
+                                    <button className="btn-secondary btn-cancel" onClick={() => { setImageFile(null); setPreviewImage(null); }} disabled={uploading}>
+                                        Cancelar
+                                    </button>
+                                </div>
+                            )}
+                            {uploadError && <p className="error-message">{uploadError}</p>}
                         </div>
                     )}
                 </div>
-            </div>
+            </header>
+
+            {isOwnProfile && (
+                <>
+                    {isDemo ? (
+                        <div className="card demo-profile-note">
+                            <h3>Estás usando la cuenta demo</h3>
+                            <p>
+                                Es una cuenta compartida para probar Traveldaring: puedes crear, editar y eliminar viajes,
+                                pero el perfil no se puede modificar.
+                            </p>
+                        </div>
+                    ) : (
+                        <EditProfile profile={profile} refreshProfile={fetchProfile} />
+                    )}
+                    <FriendsList refreshTrigger={friendsUpdated} />
+                    <FriendRequests onFriendAccepted={updateFriends} />
+                    <div className="logout-section">
+                        <button onClick={handleLogout} className="btn btn-danger logout-button">
+                            <FaSignOutAlt /> Cerrar Sesión
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {!isOwnProfile && (
+                <div className="card public-profile-details">
+                    <h3>Sobre {profile.username}</h3>
+                    <p className="muted">{profile.bio || 'Este viajero todavía no ha escrito su biografía.'}</p>
+                </div>
+            )}
         </div>
     );
 };

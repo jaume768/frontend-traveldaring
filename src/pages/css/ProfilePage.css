@@ -1,359 +1,122 @@
-/* src/components/Profile/css/ProfilePage.css */
-
-@import '../../variables.css';
-
-/* Reset de márgenes y paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Contenedor principal para ProfilePage */
-.profile-container {
-    min-height: 100vh;
-    background: url('https://wallpapers.com/images/hd/travel-hd-4zjwrepl0mzn70nd.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-family);
-}
-
-/* Superposición oscura para mejorar la legibilidad */
-.profile-overlay {
-    background: var(--background-overlay);
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Contenedor de contenido con diseño de tarjeta */
-.profile-content {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: var(--border-radius);
-    max-width: 900px;
-    width: 100%;
-    box-shadow: var(--box-shadow);
-    backdrop-filter: blur(15px);
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    gap: 30px;
-    overflow-y: auto;
-}
-
-/* Encabezado del Perfil */
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    gap: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Franja de color superior de la tarjeta */
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-brand);
 }
 
 .profile-picture {
-    width: 150px;
-    height: 150px;
+    width: 132px;
+    height: 132px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--secondary-color);
+    flex-shrink: 0;
+    border: 3px solid var(--brand);
+    box-shadow: 0 0 0 6px rgba(10, 124, 255, 0.18), var(--shadow-glow);
+    transition: transform 0.5s var(--ease);
+}
+
+.profile-header:hover .profile-picture {
+    transform: scale(1.04) rotate(-2deg);
+}
+
+.profile-picture--initials {
+    display: grid;
+    place-items: center;
+    background: var(--gradient-brand);
+    color: #03101f;
+    font-size: 2.6rem;
+    font-weight: 800;
 }
 
 .profile-info {
+    min-width: 0;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .profile-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin-bottom: 10px;
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+    overflow-wrap: anywhere;
 }
 
-/* Botones de Acción */
-.profile-actions {
+.profile-badges {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
 }
 
-.add-friend-button,
-.cancel-friend-request-button,
-.unfriend-button {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+.profile-bio {
+    margin-top: 14px;
+    color: var(--text-muted);
 }
 
-.add-friend-button {
-    background-color: #4285F4;
-    /* Azul característico de Google */
-    color: #fff;
-}
-
-.add-friend-button:hover {
-    background-color: #357ae8;
-}
-
-.cancel-friend-request-button {
-    background-color: #f44336; /* Rojo para cancelar */
-    color: #fff;
-}
-
-.cancel-friend-request-button:hover {
-    background-color: #d32f2f;
-}
-
-.unfriend-button {
-    background-color: #e74c3c; /* Rojo para eliminar amigo */
-    color: #fff;
-}
-
-.unfriend-button:hover {
-    background-color: #c0392b;
-}
-
-.add-friend-button i,
-.cancel-friend-request-button i,
-.unfriend-button i {
-    font-size: 1.2rem;
-}
-
-/* Sección para subir la foto de perfil */
+.profile-actions,
 .profile-upload-section {
+    margin-top: 18px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Botón para subir/cambiar foto */
-.btn-upload-photo {
-    background-color: #8e44ad;
-    /* Morado */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--button-shadow);
-}
-
-.btn-upload-photo:hover {
-    background-color: #71368a;
-    transform: translateY(-2px);
-}
-
-/* Previsualización de la imagen seleccionada */
-.image-preview {
-    margin-top: 15px;
-}
-
-.itinerary-image-preview {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-}
-
-/* Controles de subida */
-.upload-controls {
-    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-top: 10px;
 }
 
-.btn-upload {
-    background-color: #27ae60;
-    /* Verde */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: var(--button-shadow);
+.profile-upload-section .error-message {
+    flex-basis: 100%;
+    margin: 0;
 }
 
-.btn-upload:hover {
-    background-color: #1e8449;
-    transform: translateY(-2px);
+.demo-profile-note {
+    background: rgba(255, 200, 87, 0.07);
+    border-color: rgba(255, 200, 87, 0.28);
 }
 
-.btn-cancel {
-    background-color: #c0392b;
-    /* Rojo */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: var(--button-shadow);
-}
-
-.btn-cancel:hover {
-    background-color: #a93226;
-    transform: translateY(-2px);
-}
-
-/* Errores */
-.error-message {
-    background-color: var(--error-color);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-top: 10px;
-    text-align: center;
-    font-weight: 500;
-}
-
-/* Carga */
-.loading-text {
-    font-size: 1.8rem;
-    text-align: center;
-    margin-top: 80px;
-    color: var(--text-color);
-}
-
-/* Detalles del Perfil Público */
-.public-profile-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-size: 1.1rem;
-}
-
+.demo-profile-note p,
 .public-profile-details p {
-    background: rgba(0, 0, 0, 0.1);
-    padding: 10px 15px;
-    border-radius: 8px;
+    color: var(--text-muted);
 }
 
-/* Sección de Cierre de Sesión */
+.profile-page .card {
+    animation: fade-up 0.7s var(--ease) both;
+}
+
+.profile-page .card:nth-of-type(2) { animation-delay: 0.08s; }
+.profile-page .card:nth-of-type(3) { animation-delay: 0.16s; }
+.profile-page .card:nth-of-type(4) { animation-delay: 0.24s; }
+
 .logout-section {
-    margin-top: 30px;
+    margin-top: 28px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
-.logout-button {
-    background-color: var(--logout-button-color, #f44336);
-    /* Rojo por defecto */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-}
-
-.logout-button:hover {
-    background-color: #d32f2f;
-    /* Rojo oscuro al pasar el mouse */
-}
-
-/* Responsividad */
-@media (max-width: 1024px) {
-    .profile-content {
-        padding: 30px;
+@media (max-width: 640px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
     }
 
-    .profile-title {
-        font-size: 2.2rem;
+    .profile-badges,
+    .profile-actions,
+    .profile-upload-section {
+        justify-content: center;
     }
 
-    .logout-button {
-        padding: 8px 16px;
-        font-size: 0.9rem;
+    .logout-section {
+        justify-content: stretch;
     }
 
-    .profile-picture {
-        width: 130px;
-        height: 130px;
-    }
-}
-
-@media (max-width: 768px) {
-    .profile-content {
-        padding: 25px;
-    }
-
-    .profile-title {
-        font-size: 2rem;
-    }
-
-    .profile-picture {
-        width: 120px;
-        height: 120px;
-    }
-
-    .add-friend-button,
-    .cancel-friend-request-button,
-    .unfriend-button {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-content {
-        padding: 20px;
-    }
-
-    .profile-title {
-        font-size: 1.8rem;
-    }
-
-    .logout-button {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-
-    .profile-picture {
-        width: 100px;
-        height: 100px;
-    }
-
-    .add-friend-button,
-    .cancel-friend-request-button,
-    .unfriend-button {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-
-    .image-preview {
-        margin-top: 10px;
-    }
-
-    .itinerary-image-preview {
-        height: 100px;
+    .logout-section .btn {
+        width: 100%;
     }
 }
