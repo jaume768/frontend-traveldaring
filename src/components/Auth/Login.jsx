@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import './css/Auth.css';
 
 const Login = () => {
@@ -30,8 +28,6 @@ const Login = () => {
             setError(errMsg);
         }
     };
-
-    const googleAuthURL = `${process.env.REACT_APP_API_URL}/auth/google`;
 
     return (
         <div className="auth-container">
@@ -73,13 +69,6 @@ const Login = () => {
                             </p>
                             <button type="submit" className="auth-button">
                                 Iniciar Sesión
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => window.location.href = googleAuthURL}
-                                className="google-button"
-                            >
-                                <FontAwesomeIcon icon={faGoogle} />
                             </button>
                         </form>
                     </div>

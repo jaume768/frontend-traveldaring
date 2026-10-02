@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'https://api-aiwonderway-production.up.railway.app/api',
+    baseURL: process.env.REACT_APP_API_URL || '/api',
 });
 
 export const uploadTripImage = (tripId, imageFile, token) => {

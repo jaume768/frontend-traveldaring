@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './css/Auth.css';
 
 const Register = () => {
     const { register } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: '',
@@ -22,13 +24,16 @@ const Register = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            await register(username, email, password);
+            const loggedIn = await register(username, email, password);
+            if (loggedIn) {
+                navigate('/dashboard');
+                return;
+            }
 
             setSuccessMsg('Registro exitoso. Por favor, verifica tu correo electrónico antes de iniciar sesión.');
             setError('');
-        } catch (err) {
-            setSuccessMsg('Registro exitoso. Por favor, verifica tu correo electrónico antes de iniciar sesión.');
-            setError('');
+        } catch (errMsg) {
+            setError(typeof errMsg === 'string' ? errMsg : 'Error al registrarse');
         }
     };
 

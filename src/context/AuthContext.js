@@ -63,31 +63,38 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Devuelve true si el backend inicia la sesión al registrarse (cuenta
+    // verificada automáticamente) y false si hay que verificar el email antes.
     const register = async (username, email, password) => {
         try {
             const response = await api.post('/auth/register', { username, email, password });
-            localStorage.setItem('token', response.data.token);
+            const token = response.data.token;
+            if (!token) {
+                return false;
+            }
+            localStorage.setItem('token', token);
             setAuthState({
-                token: response.data.token,
-                user: jwtDecode(response.data.token),
+                token,
+                user: jwtDecode(token),
                 loading: false,
             });
             try {
                 const profileResponse = await api.get('/users/profile');
                 setAuthState({
-                    token: response.data.token,
+                    token,
                     user: profileResponse.data.profile,
                     loading: false,
                 });
             } catch (profileError) {
                 console.error("Error al obtener el perfil del usuario después del registro:", profileError);
             }
+            return true;
         } catch (error) {
             const errorMessage = error.response?.data?.msg || 'Error al registrarse';
             throw errorMessage;
         }
     };
-    
+
     const logout = () => {
         localStorage.removeItem('token');
         setAuthState({
